@@ -69,7 +69,7 @@ const Header = () => {
           <StyledNavLink to="/programs">교육과정</StyledNavLink>
           <StyledNavLink to="/instructors">강사진</StyledNavLink>
           <StyledNavLink to="/playlist">수강생 작품</StyledNavLink>
-          <StyledNavLink to="/news">소식</StyledNavLink>
+          <StyledNavLink to="/news">공지</StyledNavLink>
           <StyledNavLink to="/contact">문의</StyledNavLink>
         </Navigation>
       </HeaderContent>

@@ -24,6 +24,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
   background-color: var(--background-color);
+
+  /* 전역 텍스트 선택 방지 */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+/* 입력 필드에서는 텍스트 선택이 가능하도록 복원 */
+input,
+textarea {
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }
 
 a {

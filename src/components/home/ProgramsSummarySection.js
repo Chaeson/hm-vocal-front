@@ -41,28 +41,28 @@ const CardWrapper = styled.div`
   scroll-snap-align: start; /* 스크롤 시 카드 시작점에 맞춰 멈춤 */
 `;
 
-// 임시 데이터
+// ProgramsPage.js의 id와 일치하도록 데이터 수정
 const programs = [
   {
-    to: '/programs',
+    id: 'beginner',
     image: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=400',
     title: '보컬 입문반',
     subtitle: '기초부터 탄탄하게, 당신의 목소리를 찾아보세요.',
   },
   {
-    to: '/programs',
+    id: 'audition',
     image: 'https://images.pexels.com/photos/1916817/pexels-photo-1916817.jpeg?auto=compress&cs=tinysrgb&w=400',
     title: '오디션 준비반',
     subtitle: '전문적인 트레이닝으로 꿈의 무대에 도전하세요.',
   },
   {
-    to: '/programs',
+    id: 'hobby',
     image: 'https://images.pexels.com/photos/45243/saxophone-music-gold-gloss-45243.jpeg?auto=compress&cs=tinysrgb&w=400',
     title: '취미/직장인반',
     subtitle: '노래로 찾는 삶의 활력, 스트레스를 해소하세요.',
   },
   {
-    to: '/programs',
+    id: 'advanced',
     image: 'https://images.pexels.com/photos/3971985/pexels-photo-3971985.jpeg?auto=compress&cs=tinysrgb&w=400',
     title: '심화 과정',
     subtitle: '테크닉을 완성하고 자신만의 스타일을 만드세요.',
@@ -77,7 +77,7 @@ const ProgramsSummarySection = () => {
         {programs.map((program, index) => (
           <CardWrapper key={index}>
             <Card
-              to={program.to}
+              to={`/programs?course=${program.id}`}
               image={program.image}
               title={program.title}
               subtitle={program.subtitle}
