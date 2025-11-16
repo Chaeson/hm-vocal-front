@@ -1,0 +1,8 @@
+---
+// src/pages/contact.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactPageContent from './ContactPage.jsx'; // 경로 수정
+---
+<BaseLayout title="문의하기">
+  <ContactPageContent client:only="react" />
+</BaseLayout>

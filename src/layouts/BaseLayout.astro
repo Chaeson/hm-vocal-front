@@ -1,0 +1,49 @@
+---
+// src/layouts/BaseLayout.astro
+import Header from '../components/layout/Header.jsx';
+import Footer from '../components/layout/Footer.jsx';
+import FloatingToggle from '../components/common/FloatingToggle.jsx';
+import '../assets/styles/global.css';
+
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Vocal Academy Project" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="app-container">
+      <Header client:only="react" />
+      <main class="main-content">
+        <slot />
+      </main>
+      <Footer client:only="react" />
+      <FloatingToggle client:only="react" />
+    </div>
+    <style is:global>
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .main-content {
+        flex-grow: 1;
+        padding: 2rem;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      @media (max-width: 768px) {
+        .main-content {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </body>
+</html>

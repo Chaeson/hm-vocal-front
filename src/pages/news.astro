@@ -1,0 +1,8 @@
+---
+// src/pages/news.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsListPageContent from './NewsListPage.jsx'; // 경로 수정
+---
+<BaseLayout title="소식">
+  <NewsListPageContent client:only="react" />
+</BaseLayout>

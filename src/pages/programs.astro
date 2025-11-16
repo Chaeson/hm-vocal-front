@@ -1,0 +1,10 @@
+---
+// src/pages/programs.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProgramsPageContent from './ProgramsPage.jsx'; // 경로 수정
+
+const courseId = Astro.url.searchParams.get('course');
+---
+<BaseLayout title="교육과정">
+  <ProgramsPageContent client:only="react" initialCourse={courseId} />
+</BaseLayout>

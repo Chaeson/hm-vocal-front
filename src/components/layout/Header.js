@@ -1,7 +1,8 @@
 // frontend/src/components/layout/Header.js
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+// NavLink를 a 태그로 변경합니다.
+// Astro에서는 window.location.pathname을 통해 현재 경로를 확인합니다.
 
 const HeaderBlock = styled.header`
   position: sticky;
@@ -22,9 +23,11 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-const Logo = styled(NavLink)`
+const Logo = styled.a`
   font-size: 1.5rem;
   font-weight: bold;
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Navigation = styled.nav`
@@ -32,11 +35,13 @@ const Navigation = styled.nav`
   gap: 2rem;
 `;
 
-const StyledNavLink = styled(NavLink)`
+const StyledLink = styled.a`
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   position: relative;
+  text-decoration: none;
+  color: inherit;
 
   &::after {
     content: '';
@@ -60,17 +65,19 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const Header = () => {
+  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+
   return (
     <HeaderBlock>
       <HeaderContent>
-        <Logo to="/">Vocal Academy</Logo>
+        <Logo href="/">Vocal Academy</Logo>
         <Navigation>
-          <StyledNavLink to="/about">학원소개</StyledNavLink>
-          <StyledNavLink to="/programs">교육과정</StyledNavLink>
-          <StyledNavLink to="/instructors">강사진</StyledNavLink>
-          <StyledNavLink to="/playlist">수강생 작품</StyledNavLink>
-          <StyledNavLink to="/news">공지</StyledNavLink>
-          <StyledNavLink to="/contact">문의</StyledNavLink>
+          <StyledLink href="/about" className={currentPath === '/about' ? 'active' : ''}>학원소개</StyledLink>
+          <StyledLink href="/programs" className={currentPath === '/programs' ? 'active' : ''}>교육과정</StyledLink>
+          <StyledLink href="/instructors" className={currentPath === '/instructors' ? 'active' : ''}>강사진</StyledLink>
+          <StyledLink href="/playlist" className={currentPath === '/playlist' ? 'active' : ''}>수강생 작품</StyledLink>
+          <StyledLink href="/news" className={currentPath === '/news' ? 'active' : ''}>소식</StyledLink>
+          <StyledLink href="/contact" className={currentPath === '/contact' ? 'active' : ''}>문의</StyledLink>
         </Navigation>
       </HeaderContent>
     </HeaderBlock>

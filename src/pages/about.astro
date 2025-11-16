@@ -1,0 +1,8 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutPageContent from './AboutPage.jsx'; // .js -> .jsx
+---
+<BaseLayout title="학원소개">
+  <AboutPageContent client:only="react" />
+</BaseLayout>

@@ -1,0 +1,14 @@
+---
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/home/HeroSection.jsx';
+import ProgramsSummarySection from '../components/home/ProgramsSummarySection.jsx';
+import PlaylistSection from '../components/home/PlaylistSection.jsx';
+import LocationAndNewsSection from '../components/home/LocationAndNewsSection.jsx';
+---
+<BaseLayout title="Vocal Academy - 홈">
+  <HeroSection client:only="react" />
+  <ProgramsSummarySection client:only="react" />
+  <PlaylistSection client:only="react" />
+  <LocationAndNewsSection client:only="react" />
+</BaseLayout>
