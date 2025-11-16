@@ -2,48 +2,74 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+// 1. 이미지를 import 합니다.
+import daeyoungLeeImage from '../assets/images/instructors/v_daeyoung_lee.jpg';
+import eunkyoungImage from '../assets/images/instructors/v_eunkyoung_chu.jpg';
+import jiyeonImage from '../assets/images/instructors/v_jiyeon_kim.jpg';
+import jiyoungImage from '../assets/images/instructors/v_jiyoung_park.jpg';
+import mijiImage from '../assets/images/instructors/v_miji_kim.jpg';
+import juntaeImage from '../assets/images/instructors/i_juntae_kim.jpg';
+import seulbeeImage from '../assets/images/instructors/i_seulbee_lee.jpg';
+
 // --- 데이터 정의 ---
 const instructorsData = [
   // 보컬 강사진
   {
     id: 'vocal1',
-    name: '김보컬',
+    name: '이대영',
     specialty: '팝, 발라드 전문',
     bio: '서울예술대학교 실용음악과 졸업. 다수 앨범 코러스 및 가이드 녹음 참여. 개인의 목소리 톤과 감성을 살리는 레슨으로 정평.',
-    image: 'https://images.pexels.com/photos/3775540/pexels-photo-3775540.jpeg?auto=compress&cs=tinysrgb&w=600',
+    // 2. image 경로를 import한 변수로 교체합니다. .src를 붙여야 합니다.
+    image: daeyoungLeeImage.src,
     category: 'vocal',
   },
   {
     id: 'vocal2',
-    name: '이소울',
+    name: '추은경',
     specialty: 'R&B, 소울, 재즈',
     bio: '버클리 음대 출신. 그루브와 리듬감을 중심으로 한 레슨 진행. 다수의 해외 공연 및 페스티벌 참가 경력.',
-    image: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: eunkyoungImage.src,
     category: 'vocal',
   },
   {
     id: 'vocal3',
-    name: '박락커',
+    name: '김지연',
     specialty: '락, 메탈 고음 발성',
     bio: '20년 경력의 락 밴드 프론트맨. 스크래치, 그로울링 등 파워풀한 발성법 전문. 수강생의 잠재된 에너지를 폭발시키는 수업.',
-    image: 'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: jiyeonImage.src,
+    category: 'vocal',
+  },
+  {
+    id: 'vocal4',
+    name: '박지영',
+    specialty: '락, 메탈 고음 발성',
+    bio: '20년 경력의 락 밴드 프론트맨. 스크래치, 그로울링 등 파워풀한 발성법 전문. 수강생의 잠재된 에너지를 폭발시키는 수업.',
+    image: jiyoungImage.src,
+    category: 'vocal',
+  },
+  {
+    id: 'vocal5',
+    name: '김미지',
+    specialty: '락, 메탈 고음 발성',
+    bio: '20년 경력의 락 밴드 프론트맨. 스크래치, 그로울링 등 파워풀한 발성법 전문. 수강생의 잠재된 에너지를 폭발시키는 수업.',
+    image: mijiImage.src,
     category: 'vocal',
   },
   // 악기 강사진
   {
     id: 'inst1',
-    name: '최기타',
+    name: '김준태',
     specialty: '어쿠스틱, 핑거스타일',
     bio: '유명 싱어송라이터들의 라이브 세션 및 편곡 참여. 코드 이론부터 고급 테크닉까지, 눈높이에 맞춘 체계적인 수업.',
-    image: 'https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: juntaeImage.src,
     category: 'instrument',
   },
   {
     id: 'inst2',
-    name: '정피아노',
+    name: '이슬비',
     specialty: '재즈, 반주법',
     bio: '클래식과 재즈를 넘나드는 폭넓은 스펙트럼. 다수의 재즈 클럽 연주 및 뮤지컬 반주 경력. 실용적인 반주법 위주 레슨.',
-    image: 'https://images.pexels.com/photos/462432/pexels-photo-462432.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: seulbeeImage.src,
     category: 'instrument',
   },
 ];
