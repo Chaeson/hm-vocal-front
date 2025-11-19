@@ -23,8 +23,7 @@ const Section = styled.section`
 
 const SectionImage = styled.img`
   width: 100%;
-  /* 넓어진 레이아웃에 맞춰 이미지의 최대 너비를 1300px로 설정합니다. */
-  max-width: 1300px; 
+  max-width: 2300px;
   height: auto;
   border-radius: 12px;
   margin-bottom: 2.5rem;
@@ -33,8 +32,7 @@ const SectionImage = styled.img`
 `;
 
 const ContentWrapper = styled.div`
-  /* 이미지와의 균형을 위해 텍스트 영역의 최대 너비를 1000px로 설정합니다. */
-  max-width: 1000px; 
+  max-width: 2300px;
   margin: 0 auto;
 `;
 
@@ -56,17 +54,17 @@ const Paragraph = styled.p`
 const AboutPage = () => {
   return (
     <PageContainer>
-      
+
       <Section>
-        <SectionImage 
-          src={aboutImage1.src} 
+        <SectionImage
+          src={aboutImage1.src}
           alt="학원 전경 또는 레슨 환경"
         />
         <ContentWrapper>
           <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
           <Paragraph>
-            저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로, 
-            모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다. 
+            저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
+            모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
             취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
           </Paragraph>
         </ContentWrapper>
