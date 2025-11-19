@@ -1,8 +1,15 @@
 ---
 // src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AboutPageContent from './AboutPage.jsx'; // .js -> .jsx
+import AboutPageContent from './AboutPage.jsx';
 ---
 <BaseLayout title="학원소개">
   <AboutPageContent client:only="react" />
 </BaseLayout>
+
+<style>
+  :global(main.main-content) {
+    /* 이 페이지에만 적용: 최대 너비를 1400px로 확장합니다. */
+    max-width: 1400px;
+  }
+</style>

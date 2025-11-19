@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// 1. 로컬 이미지를 import 합니다.
+
 import aboutImage1 from '../assets/images/about/Sample1.png';
 import aboutImage2 from '../assets/images/about/Sample2.png';
 import aboutImage3 from '../assets/images/about/Sample3.png';
@@ -23,7 +23,8 @@ const Section = styled.section`
 
 const SectionImage = styled.img`
   width: 100%;
-  max-width: 900px;
+  /* 넓어진 레이아웃에 맞춰 이미지의 최대 너비를 1300px로 설정합니다. */
+  max-width: 1300px; 
   height: auto;
   border-radius: 12px;
   margin-bottom: 2.5rem;
@@ -32,7 +33,8 @@ const SectionImage = styled.img`
 `;
 
 const ContentWrapper = styled.div`
-  max-width: 800px;
+  /* 이미지와의 균형을 위해 텍스트 영역의 최대 너비를 1000px로 설정합니다. */
+  max-width: 1000px; 
   margin: 0 auto;
 `;
 
@@ -54,10 +56,8 @@ const Paragraph = styled.p`
 const AboutPage = () => {
   return (
     <PageContainer>
-      <h1>학원소개</h1>
       
       <Section>
-        {/* 2. src 속성을 import한 변수(.src)로 교체합니다. */}
         <SectionImage 
           src={aboutImage1.src} 
           alt="학원 전경 또는 레슨 환경"
@@ -73,52 +73,50 @@ const AboutPage = () => {
       </Section>
 
       <Section>
-          {/* 2. src 속성을 import한 변수(.src)로 교체합니다. */}
-          <SectionImage
-            src={aboutImage2.src}
-            alt="학원 전경 또는 레슨 환경"
-          />
-          <ContentWrapper>
-            <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
-            <Paragraph>
-              저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
-              모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
-              취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
-            </Paragraph>
-          </ContentWrapper>
-        </Section>
+              <SectionImage
+                src={aboutImage2.src}
+                alt="학원 전경 또는 레슨 환경"
+              />
+              <ContentWrapper>
+                <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
+                <Paragraph>
+                  저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
+                  모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
+                  취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
+                </Paragraph>
+              </ContentWrapper>
+            </Section>
 
-        <Section>
-            {/* 2. src 속성을 import한 변수(.src)로 교체합니다. */}
-            <SectionImage
-              src={aboutImage3.src}
-              alt="학원 전경 또는 레슨 환경"
-            />
-            <ContentWrapper>
-              <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
-              <Paragraph>
-                저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
-                모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
-                취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
-              </Paragraph>
-            </ContentWrapper>
-          </Section>
+            <Section>
+                    <SectionImage
+                      src={aboutImage3.src}
+                      alt="학원 전경 또는 레슨 환경"
+                    />
+                    <ContentWrapper>
+                      <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
+                      <Paragraph>
+                        저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
+                        모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
+                        취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
+                      </Paragraph>
+                    </ContentWrapper>
+                  </Section>
 
-        <Section>
-          {/* 2. src 속성을 import한 변수(.src)로 교체합니다. */}
-          <SectionImage
-            src={aboutImage4.src}
-            alt="학원 전경 또는 레슨 환경"
-          />
-          <ContentWrapper>
-            <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
-            <Paragraph>
-              저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
-              모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
-              취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
-            </Paragraph>
-          </ContentWrapper>
-        </Section>
+
+                  <Section>
+                          <SectionImage
+                            src={aboutImage4.src}
+                            alt="학원 전경 또는 레슨 환경"
+                          />
+                          <ContentWrapper>
+                            <SectionTitle>최고의 보컬 교육, 당신의 꿈을 현실로</SectionTitle>
+                            <Paragraph>
+                              저희 보컬 학원은 수년간의 교육 경험과 체계적인 커리큘럼을 바탕으로,
+                              모든 수강생이 자신의 목소리를 발견하고 발전시킬 수 있도록 돕습니다.
+                              취미부터 전문 입시까지, 당신의 꿈을 향한 여정에 든든한 파트너가 되겠습니다.
+                            </Paragraph>
+                          </ContentWrapper>
+                        </Section>
 
     </PageContainer>
   );
