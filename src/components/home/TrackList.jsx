@@ -1,4 +1,3 @@
-// frontend/src/components/home/TrackList.js
 import React from 'react';
 import styled from 'styled-components';
 

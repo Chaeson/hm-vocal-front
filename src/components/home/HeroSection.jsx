@@ -1,4 +1,3 @@
-// frontend/src/components/home/HeroSection.js
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 

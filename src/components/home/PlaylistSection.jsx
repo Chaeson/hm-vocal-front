@@ -1,4 +1,3 @@
-// frontend/src/components/home/PlaylistSection.js
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import TrackList from './TrackList.jsx';
@@ -83,12 +82,29 @@ const PlaylistTitle = styled.h3`
 const MediaPlaylist = ({ playlist }) => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(new Audio());
+  const audioRef = useRef(null);
   const videoRef = useRef(null);
 
   const currentTrack = playlist.tracks[currentTrackIndex];
 
   useEffect(() => {
+    // Audio 객체를 클라이언트에서만 생성합니다.
+    audioRef.current = new Audio();
+    const audioPlayer = audioRef.current;
+
+    const handleEnded = () => setIsPlaying(false);
+    audioPlayer.addEventListener('ended', handleEnded);
+
+    // 컴포넌트가 언마운트될 때 리소스를 정리합니다.
+    return () => {
+      audioPlayer.pause();
+      audioPlayer.removeEventListener('ended', handleEnded);
+    };
+  }, []); // 빈 배열은 이 effect가 마운트될 때 한 번만 실행되도록 합니다.
+
+  useEffect(() => {
+    if (!audioRef.current) return; // audioRef가 아직 설정되지 않았으면 실행하지 않습니다.
+
     const isVideo = currentTrack.type === 'video';
     
     if (isVideo) {
@@ -106,6 +122,8 @@ const MediaPlaylist = ({ playlist }) => {
   }, [currentTrackIndex, playlist]);
 
   useEffect(() => {
+    if (!audioRef.current) return; // audioRef가 아직 설정되지 않았으면 실행하지 않습니다.
+
     const isVideo = currentTrack.type === 'video';
     const player = isVideo ? videoRef.current : audioRef.current;
     if (!player) return;
@@ -128,7 +146,6 @@ const MediaPlaylist = ({ playlist }) => {
 
   return (
     <PlaylistWrapper>
-      <audio ref={audioRef} onEnded={() => setIsPlaying(false)} />
       <PlaylistTitle>{playlist.title}</PlaylistTitle>
       
       <PlayerWrapper>

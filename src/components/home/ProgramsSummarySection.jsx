@@ -1,4 +1,3 @@
-// frontend/src/components/home/ProgramsSummarySection.js
 import React from 'react';
 import styled from 'styled-components';
 import Card from '../common/Card.jsx';

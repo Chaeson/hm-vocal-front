@@ -1,4 +1,3 @@
-// frontend/src/components/layout/Header.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
