@@ -124,7 +124,8 @@ const InstructorsPage = () => {
     const fetchInstructors = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:8080/api/instructors');
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const response = await axios.get(`${apiUrl}/api/instructors`);
         const data = response.data;
         const categoryOrder = ['Vocal', 'Instrument', 'Writer'];
         const sortedInstructors = data.sort((a, b) => {

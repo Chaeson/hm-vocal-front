@@ -107,7 +107,8 @@ const NewsListPage = () => {
     const fetchAnnouncements = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:8080/api/announcements');
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const response = await axios.get(`${apiUrl}/api/announcements`);
         setNewsItems(response.data);
       } catch (err) {
         console.error("Failed to fetch announcements:", err);
