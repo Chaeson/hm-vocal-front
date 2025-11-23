@@ -125,6 +125,7 @@ const InstructorsPage = () => {
       try {
         setLoading(true);
         const apiUrl = import.meta.env.VITE_API_URL;
+        console.log(apiUrl)
         const response = await axios.get(`${apiUrl}/api/instructors`);
         const data = response.data;
         const categoryOrder = ['Vocal', 'Instrument', 'Writer'];
@@ -191,7 +192,7 @@ const InstructorsPage = () => {
             </CardBody>
           </InstructorCard>
         ))}
-      </InstructorGrid>
+      </Grid>
 
       {selectedInstructor && (
         <ModalBackdrop onClick={handleCloseModal}>
