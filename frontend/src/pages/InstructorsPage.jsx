@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// 1. 이미지 import (다시 추가)
+// 1. 이미지 import
 import daeyoungLeeImage from '@/assets/images/instructors/v_daeyoung_lee.jpg';
 import eunkyoungImage from '@/assets/images/instructors/v_eunkyoung_chu.jpg';
 import jiyeonImage from '@/assets/images/instructors/v_jiyeon_kim.jpg';
@@ -24,229 +25,188 @@ const instructorImageMap = {
   'w_minyoung_kim.jpg': minyoungImage.src,
 };
 
-
-// --- 스타일 컴포넌트 (기존과 동일) ---
-const fadeIn = keyframes` from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }`;
-
-const PageContainer = styled.div`
-  padding: 2rem;
-`;
-
-const Section = styled.section`
-  margin-bottom: 4rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 0.75rem;
-`;
-
-const InstructorGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2.5rem;
-  width: 100%;
-`;
-
+// --- 스타일 컴포넌트 ---
+const fadeIn = keyframes` from { opacity: 0; } to { opacity: 1; }`;
+const PageContainer = styled.div` padding: 2rem; `;
+const PageTitle = styled.h1` font-size: 2.8rem; font-weight: 700; margin-bottom: 3rem; text-align: center; `;
+const InstructorGrid = styled.div` display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; width: 100%; `;
 const InstructorCard = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: ${fadeIn} 0.6s ease-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-  }
+  background: #fff; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  overflow: hidden; display: flex; flex-direction: column; animation: ${fadeIn} 0.6s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+  &:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
 `;
-
-const CardImage = styled.img`
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-`;
-
+const CardImage = styled.img` width: 100%; height: 280px; object-fit: cover; `;
 const CardBody = styled.div`
-  padding: 1.5rem;
-  flex-grow: 1;
+  padding: 1.5rem; flex-grow: 1;
   h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
   p.specialty { font-size: 1rem; font-weight: 500; color: var(--primary-color); margin-bottom: 1rem; }
   p.bio { font-size: 0.95rem; line-height: 1.6; color: #666; }
 `;
 
-// --- 모달 스타일 (기존과 동일) ---
+// --- 모달 스타일 ---
 const ModalBackdrop = styled.div`
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8); /* 반투명 검은 배경 복원 */
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
+  animation: ${fadeIn} 0.3s;
 `;
-const modalShow = keyframes`from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); }`;
+const ModalContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const modalShow = keyframes`from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); }`;
 const ModalContent = styled.div`
-  background: white; border-radius: 16px; max-width: 800px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  animation: ${modalShow} 0.3s ease-out; position: relative; display: flex; align-items: center; padding: 2.5rem; gap: 2rem;
-  @media (max-width: 768px) { flex-direction: column; padding: 1.5rem; text-align: center; }
+  background: white; border-radius: 16px; max-width: 800px; width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: ${modalShow} 0.3s ease-out;
+  position: relative; display: flex; align-items: stretch; /* align-items 변경 */
+  padding: 0; /* 패딩 제거 */
+  max-height: 90vh;
+  overflow: hidden; /* 내부 컨텐츠가 모서리를 벗어나지 않도록 */
+
+  @media (max-width: 768px) { 
+    flex-direction: column; padding: 0;
+    overflow-y: auto;
+  }
 `;
 const CloseButton = styled.button`
   position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; border: none; border-radius: 50%;
   width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center;
-  line-height: 1; transition: background 0.2s ease;
+  line-height: 1; transition: background 0.2s ease; z-index: 10;
   &:hover { background: rgba(0,0,0,0.6); }
 `;
 const ModalImage = styled.img`
-  width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 5px solid #f0f0f0;
-  @media (max-width: 768px) { width: 150px; height: 150px; }
+  width: 300px; /* 이미지 너비 조정 */
+  height: auto; /* 높이 자동 조정 */
+  object-fit: cover;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 250px;
+  }
 `;
-const Separator = styled.div`
-  width: 1px; align-self: stretch; background: #e0e0e0;
-  @media (max-width: 768px) { width: 80%; height: 1px; }
+const ModalInfoWrapper = styled.div`
+  flex: 1; text-align: left;
+  overflow-y: auto;
+  padding: 2.5rem;
+  min-height: 0;
+
+  h3 { font-size: 2rem; margin-bottom: 0.75rem; }
+  p.specialty { font-size: 1.1rem; font-weight: 500; color: var(--primary-color); margin-bottom: 1.5rem; }
+  p.bio { font-size: 1rem; line-height: 1.7; color: #555; }
 `;
-const ModalInfoWrapper = styled.div` flex: 1; `;
+const NavButton = styled.button`
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,0.3); color: white; border: none; border-radius: 50%;
+  width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer;
+  display: flex; justify-content: center; align-items: center;
+  transition: background 0.2s ease; z-index: 5;
+  &:hover { background: rgba(0,0,0,0.6); }
+  &.prev { left: -60px; }
+  &.next { right: -60px; }
+  @media (max-width: 950px) {
+    &.prev { left: 10px; }
+    &.next { right: 10px; }
+  }
+`;
 
 // --- 메인 컴포넌트 ---
 const InstructorsPage = () => {
-  const [vocalInstructors, setVocalInstructors] = useState([]);
-  const [instrumentInstructors, setInstrumentInstructors] = useState([]);
-  const [writerInstructors, setWriterInstructors] = useState([]);
+  const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedInstructor, setSelectedInstructor] = useState(null);
+  const [selectedInstructorIndex, setSelectedInstructorIndex] = useState(null);
 
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
         setLoading(true);
         const response = await axios.get('http://localhost:8080/api/instructors');
-        const instructors = response.data;
-
-        // 카테고리별로 강사 분류
-        setVocalInstructors(instructors.filter(inst => inst.category === 'Vocal'));
-        setInstrumentInstructors(instructors.filter(inst => inst.category === 'Instrument'));
-        setWriterInstructors(instructors.filter(inst => inst.category === 'Writer'));
+        const data = response.data;
+        const categoryOrder = ['Vocal', 'Instrument', 'Writer'];
+        const sortedInstructors = data.sort((a, b) => {
+          const categoryA = categoryOrder.indexOf(a.category);
+          const categoryB = categoryOrder.indexOf(b.category);
+          if (categoryA !== categoryB) return categoryA - categoryB;
+          return a.priority - b.priority;
+        });
+        setInstructors(sortedInstructors);
       } catch (err) {
-        console.error("Failed to fetch instructors:", err);
         setError("강사 정보를 불러오는 데 실패했습니다.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchInstructors();
   }, []);
 
-  const handleOpenModal = (instructor) => {
-    setSelectedInstructor(instructor);
-    setIsModalOpen(true);
+  const handleOpenModal = (index) => setSelectedInstructorIndex(index);
+  const handleCloseModal = () => setSelectedInstructorIndex(null);
+
+  const handleNext = () => {
+    if (selectedInstructorIndex === null) return;
+    const nextIndex = (selectedInstructorIndex + 1) % instructors.length;
+    setSelectedInstructorIndex(nextIndex);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedInstructor(null), 300);
+  const handlePrev = () => {
+    if (selectedInstructorIndex === null) return;
+    const prevIndex = (selectedInstructorIndex - 1 + instructors.length) % instructors.length;
+    setSelectedInstructorIndex(prevIndex);
   };
 
-  // 이미지 파일명을 실제 URL로 변환하는 함수
-  const getImageUrl = (filename) => {
-    return instructorImageMap[filename] || ''; // 맵에 없으면 빈 문자열 반환
-  };
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedInstructorIndex === null) return;
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'Escape') handleCloseModal();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedInstructorIndex, instructors]);
 
-  if (loading) {
-    return (
-      <PageContainer>
-        <p>강사 정보를 불러오는 중...</p>
-      </PageContainer>
-    );
-  }
+  const getImageUrl = (filename) => instructorImageMap[filename] || '';
 
-  if (error) {
-    return (
-      <PageContainer>
-        <p style={{ color: 'red' }}>{error}</p>
-      </PageContainer>
-    );
-  }
+  if (loading) return <PageContainer><p>강사 정보를 불러오는 중...</p></PageContainer>;
+  if (error) return <PageContainer><p style={{ color: 'red' }}>{error}</p></PageContainer>;
+
+  const selectedInstructor = selectedInstructorIndex !== null ? instructors[selectedInstructorIndex] : null;
 
   return (
     <PageContainer>
-      <Section>
-        <SectionTitle>Vocal</SectionTitle>
-        <InstructorGrid>
-          {vocalInstructors.length > 0 ? (
-            vocalInstructors.map(instructor => ( // Fragment 제거
-              <InstructorCard key={instructor.id} onClick={() => handleOpenModal(instructor)}>
-                <CardImage src={getImageUrl(instructor.image)} alt={instructor.name} />
-                <CardBody>
-                  <h3>{instructor.name}</h3>
-                  <p className="specialty">{instructor.specialty}</p>
-                  <p className="bio">{instructor.cardBio}</p>
-                </CardBody>
-              </InstructorCard>
-            ))
-          ) : (
-            <p>등록된 보컬 강사가 없습니다.</p>
-          )}
-        </InstructorGrid>
-      </Section>
+      <PageTitle>강사진</PageTitle>
+      <InstructorGrid>
+        {instructors.map((instructor, index) => (
+          <InstructorCard key={instructor.id} onClick={() => handleOpenModal(index)}>
+            <CardImage src={getImageUrl(instructor.image)} alt={instructor.name} />
+            <CardBody>
+              <h3>{instructor.name}</h3>
+              <p className="specialty">{instructor.category}</p>
+              <p className="bio">{instructor.cardBio}</p>
+            </CardBody>
+          </InstructorCard>
+        ))}
+      </InstructorGrid>
 
-      <Section>
-        <SectionTitle>Instrument</SectionTitle>
-        <InstructorGrid>
-          {instrumentInstructors.length > 0 ? (
-            instrumentInstructors.map(instructor => ( // Fragment 제거
-              <InstructorCard key={instructor.id} onClick={() => handleOpenModal(instructor)}>
-                <CardImage src={getImageUrl(instructor.image)} alt={instructor.name} />
-                <CardBody>
-                  <h3>{instructor.name}</h3>
-                  <p className="specialty">{instructor.specialty}</p>
-                  <p className="bio">{instructor.cardBio}</p>
-                </CardBody>
-              </InstructorCard>
-            ))
-          ) : (
-            <p>등록된 악기 강사가 없습니다.</p>
-          )}
-        </InstructorGrid>
-      </Section>
-
-      <Section>
-        <SectionTitle>Writer</SectionTitle>
-        <InstructorGrid>
-          {writerInstructors.length > 0 ? (
-            writerInstructors.map(instructor => ( // Fragment 제거
-              <InstructorCard key={instructor.id} onClick={() => handleOpenModal(instructor)}>
-                <CardImage src={getImageUrl(instructor.image)} alt={instructor.name} />
-                <CardBody>
-                  <h3>{instructor.name}</h3>
-                  <p className="specialty">{instructor.specialty}</p>
-                  <p className="bio">{instructor.cardBio}</p>
-                </CardBody>
-              </InstructorCard>
-            ))
-          ) : (
-            <p>등록된 작곡/작사가 강사가 없습니다.</p>
-          )}
-        </InstructorGrid>
-      </Section>
-
-      {isModalOpen && selectedInstructor && (
+      {selectedInstructor && (
         <ModalBackdrop onClick={handleCloseModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={() => handleCloseModal()}>&times;</CloseButton>
-            <ModalImage src={getImageUrl(selectedInstructor.image)} alt={selectedInstructor.name} />
-            <Separator />
-            <ModalInfoWrapper>
-              <h3>{selectedInstructor.name}</h3>
-              <p className="specialty">{selectedInstructor.specialty}</p>
-              <p className="bio">{selectedInstructor.bio}</p>
-            </ModalInfoWrapper>
-          </ModalContent>
+          <ModalContainer>
+            <NavButton className="prev" onClick={(e) => { e.stopPropagation(); handlePrev(); }}><FaChevronLeft /></NavButton>
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
+              <ModalImage src={getImageUrl(selectedInstructor.image)} alt={selectedInstructor.name} />
+              <ModalInfoWrapper>
+                <h3>{selectedInstructor.name}</h3>
+                <p className="specialty">{selectedInstructor.category}</p>
+                <p className="bio">{selectedInstructor.bio}</p>
+              </ModalInfoWrapper>
+            </ModalContent>
+            <NavButton className="next" onClick={(e) => { e.stopPropagation(); handleNext(); }}><FaChevronRight /></NavButton>
+          </ModalContainer>
         </ModalBackdrop>
       )}
     </PageContainer>
