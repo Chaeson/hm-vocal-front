@@ -33,7 +33,7 @@ const HeroLayout = styled.section`
   display: flex; 
   align-items: center; 
   height: 100vh; 
-  padding: 0 550px 0 6rem; // 오른쪽 패딩으로 InteractiveArea 공간 확보
+  padding: 0 550px 0 6rem; 
   color: white;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${props => props.bgImage}) center/cover no-repeat;
   transition: background-image 1s ease-in-out; 
@@ -41,30 +41,30 @@ const HeroLayout = styled.section`
   width: 100%;
   
   @media (max-width: 1024px) { 
-    padding: 0 450px 0 3rem; // 태블릿 사이즈에 맞게 패딩 조정
+    padding: 0 450px 0 3rem;
   }
   @media (max-width: 768px) { 
     flex-direction: column; 
     justify-content: center; 
     height: auto; 
     min-height: 100vh; 
-    padding: 5rem 2rem; // 모바일에서는 패딩 리셋
+    padding: 5rem 2rem;
     text-align: center; 
   }
 `;
 const Content = styled.div`
   animation: ${fadeIn} 1s ease-out;
   z-index: 2;
-  width: 100%; // 확보된 공간을 모두 사용
+  width: 100%;
   text-align: center;
 
   @media (max-width: 768px) {
-    width: auto; // 모바일에서는 자동 너비
+    width: auto;
     margin-bottom: 3rem;
   }
 `;
 const Title = styled.h1`
-  font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  font-size: 3rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 `;
 const Subtitle = styled.p`
   font-size: 1.5rem; font-weight: 300; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -76,7 +76,7 @@ const InteractiveArea = styled.div`
   height: 100%;
   width: 500px;
   
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.6); /* 투명도 0.6으로 수정 */
   backdrop-filter: blur(12px) saturate(180%);
   
   display: flex;
@@ -92,8 +92,7 @@ const InteractiveArea = styled.div`
     width: 100%;
     height: auto;
     max-height: 400px;
-    background-color: #ffffff;
-    backdrop-filter: none;
+    border-radius: 16px;
   }
 `;
 const TabMenu = styled.div`

@@ -27,12 +27,18 @@ const { title, bodyClass } = Astro.props;
       <FloatingToggle client:only="react" />
     </div>
     <style is:global>
+      body {
+        /* 사용자 이미지 파일로 배경 설정 */
+        background-image: url('/patterns/back-ground.jpg'); /* public/back-ground.jpg 파일을 참조합니다. */
+        background-repeat: repeat; /* 이미지를 반복하여 바둑판 효과를 냅니다. */
+      }
+
       .app-container {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
       }
-      
+
       /* 기본 스타일: 모든 페이지의 콘텐츠를 중앙 정렬 */
       .main-content {
         flex-grow: 1;
@@ -40,13 +46,20 @@ const { title, bodyClass } = Astro.props;
         width: 100%;
         margin: 0 auto;
         padding: 2rem;
+
+        /* 종이 질감 배경 추가 */
+        background-color: #fff; /* 이미지 로딩 실패 시 대비 */
+          /* 사용자 이미지 파일로 배경 설정 */
+        background-image: url('/patterns/back-ground.jpg'); /* public/back-ground.jpg 파일을 참조합니다. */
+        background-repeat: repeat; /* 이미지를 반복하여 바둑판 효과를 냅니다. */
       }
 
-      /* 홈페이지 예외: 중앙 정렬 및 패딩 제거 */
+      /* 홈페이지 예외: 중앙 정렬, 패딩, 배경 모두 제거 */
       body.homepage .main-content {
         max-width: none;
         margin: 0;
         padding: 0;
+        background-image: none; /* 홈페이지에서는 종이 질감 배경 제거 */
       }
 
       @media (max-width: 768px) {

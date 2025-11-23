@@ -11,7 +11,7 @@ const HeaderBlock = styled.header`
 `;
 
 const HeaderContent = styled.div`
-  height: 80px;
+  height: 120px; /* 헤더 높이 유지 */
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
@@ -21,17 +21,23 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled.a`
-  font-size: 1.5rem;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
   text-decoration: none;
   color: inherit;
-  z-index: 101; // 모바일 메뉴 위에 로고가 보이도록
+  z-index: 101;
+
+  img {
+    height: 80px;   /* 헤더에 맞는 높이 설정 */
+    width: 142px;  /* 16:9 비율에 맞는 너비 (80 * 16/9) */
+    object-fit: cover; /* 이미지가 비율에 맞게 채워지도록 설정 */
+  }
 `;
 
 // --- 데스크톱 메뉴 ---
 const Navigation = styled.nav`
   display: flex;
-  gap: 2rem;
+  gap: 3.5rem; /* 메뉴 간격 확장 */
 
   @media (max-width: 768px) {
     display: none; // 모바일에서는 숨김
@@ -39,7 +45,7 @@ const Navigation = styled.nav`
 `;
 
 const StyledLink = styled.a`
-  font-size: 1rem;
+  font-size: 1.2rem; /* 텍스트 크기 1.5배 증가 */
   font-weight: 500;
   cursor: pointer;
   position: relative;
@@ -121,7 +127,9 @@ const Header = () => {
   return (
     <HeaderBlock>
       <HeaderContent>
-        <Logo href="/">Vocal Academy</Logo>
+        <Logo href="/">
+            <img src="/main-logo.jpg" alt="HM Vocal Logo" />
+        </Logo>
         
         {/* 데스크톱용 메뉴 */}
         <Navigation>
