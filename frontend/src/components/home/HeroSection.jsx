@@ -28,44 +28,87 @@ const bgImages = [
 
 // --- 스타일 컴포넌트 ---
 const fadeIn = keyframes` from { opacity: 0; } to { opacity: 1; }`;
-const HeroLayout = styled.section`/* ... 기존 스타일 유지 ... */
-  position: relative; display: flex; align-items: center; height: 100vh; padding: 0 6rem; color: white;
+const HeroLayout = styled.section`
+  position: relative; 
+  display: flex; 
+  align-items: center; 
+  height: 100vh; 
+  padding: 0 550px 0 6rem; // 오른쪽 패딩으로 InteractiveArea 공간 확보
+  color: white;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${props => props.bgImage}) center/cover no-repeat;
-  transition: background-image 1s ease-in-out; overflow: hidden; width: 100%;
-  @media (max-width: 1024px) { padding: 0 3rem; }
-  @media (max-width: 768px) { flex-direction: column; justify-content: center; height: auto; min-height: 100vh; padding: 5rem 2rem; text-align: center; }
+  transition: background-image 1s ease-in-out; 
+  overflow: hidden; 
+  width: 100%;
+  
+  @media (max-width: 1024px) { 
+    padding: 0 450px 0 3rem; // 태블릿 사이즈에 맞게 패딩 조정
+  }
+  @media (max-width: 768px) { 
+    flex-direction: column; 
+    justify-content: center; 
+    height: auto; 
+    min-height: 100vh; 
+    padding: 5rem 2rem; // 모바일에서는 패딩 리셋
+    text-align: center; 
+  }
 `;
-const Content = styled.div`/* ... 기존 스타일 유지 ... */
-  animation: ${fadeIn} 1s ease-out; z-index: 2; max-width: 50%;
-  @media (max-width: 768px) { max-width: 100%; margin-bottom: 3rem; }
+const Content = styled.div`
+  animation: ${fadeIn} 1s ease-out;
+  z-index: 2;
+  width: 100%; // 확보된 공간을 모두 사용
+  text-align: center;
+
+  @media (max-width: 768px) {
+    width: auto; // 모바일에서는 자동 너비
+    margin-bottom: 3rem;
+  }
 `;
-const Title = styled.h1`/* ... 기존 스타일 유지 ... */
+const Title = styled.h1`
   font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 `;
-const Subtitle = styled.p`/* ... 기존 스타일 유지 ... */
+const Subtitle = styled.p`
   font-size: 1.5rem; font-weight: 300; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 `;
-const InteractiveArea = styled.div`/* ... 기존 스타일 유지 ... */
-  position: absolute; top: 50%; right: 10rem; transform: translateY(-50%); width: 400px; height: 80%; max-height: 520px;
-  background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px) saturate(180%); border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); border: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex; flex-direction: column; overflow: hidden; z-index: 3;
-  @media (max-width: 1024px) { right: 5rem; width: 350px; }
-  @media (max-width: 768px) { position: static; transform: none; width: 100%; height: auto; max-height: 400px; background-color: #ffffff; backdrop-filter: none; }
+const InteractiveArea = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 500px;
+  
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px) saturate(180%);
+  
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 3;
+  
+  @media (max-width: 1024px) {
+    width: 400px;
+  }
+  @media (max-width: 768px) {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    background-color: #ffffff;
+    backdrop-filter: none;
+  }
 `;
-const TabMenu = styled.div`/* ... 기존 스타일 유지 ... */
+const TabMenu = styled.div`
   display: flex; justify-content: center; border-bottom: 1px solid rgba(0, 0, 0, 0.1); flex-shrink: 0;
 `;
-const TabButton = styled.button`/* ... 기존 스타일 유지 ... */
+const TabButton = styled.button`
   padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; background: none; border: none; cursor: pointer;
   color: ${props => props.active ? '#007bff' : '#333'}; border-bottom: 3px solid ${props => props.active ? '#007bff' : 'transparent'};
   transition: all 0.2s ease-in-out;
   &:hover { color: #007bff; background-color: rgba(0, 0, 0, 0.05); }
 `;
-const ContentPanel = styled.div`/* ... 기존 스타일 유지 ... */
+const ContentPanel = styled.div`
   flex-grow: 1; overflow-y: auto; padding: 1rem;
 `;
-const PreviewItem = styled.div`/* ... 기존 스타일 유지 ... */
+const PreviewItem = styled.div`
   display: flex; align-items: center; margin: 0.5rem; padding: 0.75rem; border-radius: 8px;
   transition: background-color 0.2s; cursor: pointer;
   &:hover { background-color: rgba(0, 0, 0, 0.05); }
@@ -114,7 +157,7 @@ const DataPreview = ({ tracks, onItemClick }) => (
 const HeroSection = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState('video');
-  const [modalItem, setModalItem] = useState(null); // 모달 상태 추가
+  const [modalItem, setModalItem] = useState(null);
   const isScrolling = useRef(false);
 
   useEffect(() => { /* 이미지 슬라이더 로직 */
