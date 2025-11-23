@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PlaylistPage from '@/pages/PlaylistPage.jsx';
+---
+<BaseLayout title="자료실">
+  <PlaylistPage client:only="react" />
+</BaseLayout>

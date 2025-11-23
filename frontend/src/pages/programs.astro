@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProgramsPage from '@/pages/ProgramsPage.jsx';
+---
+<BaseLayout title="교육 과정">
+  <ProgramsPage client:only="react" />
+</BaseLayout>

@@ -1,7 +1,7 @@
 ---
 // src/pages/instructors.astro
-import BaseLayout from '../layouts/BaseLayout.astro';
-import InstructorsPageContent from './InstructorsPage.jsx'; // 경로 수정
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import InstructorsPageContent from '@/pages/InstructorsPage.jsx';
 ---
 <BaseLayout title="강사진">
   <InstructorsPageContent client:only="react" />

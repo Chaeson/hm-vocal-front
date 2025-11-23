@@ -1,15 +1,19 @@
-// frontend/src/pages/NewsListPage.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-const newsData = Array.from({ length: 25 }, (_, i) => ({
-  id: i + 1,
-  title: `제 ${25 - i}회 정기 연주회 안내`,
-  date: `2024-11-${String(25 - i).padStart(2, '0')}`,
-  content: `안녕하세요, Vocal Academy입니다.\n\n제 ${25 - i}회 정기 연주회가 아래와 같이 개최됩니다.\n수강생 여러분들의 많은 관심과 참여 부탁드립니다.\n\n- 일시: 2024년 12월 20일 (금) 19:00\n- 장소: 본원 1층 콘서트홀\n- 참가 신청: 데스크 문의 (선착순 마감)`,
-}));
+import axios from 'axios'; // axios import
 
 const ITEMS_PER_PAGE = 10;
+
+// 날짜 포맷팅 유틸리티 함수
+const formatDate = (timestamp) => {
+  if (!timestamp || !timestamp._seconds) return '날짜 미상';
+  const date = new Date(timestamp._seconds * 1000);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).replace(/\. /g, '-').replace(/\.$/, ''); // "YYYY-MM-DD" 형식으로
+};
 
 const PageContainer = styled.div`
   display: flex;
@@ -93,13 +97,28 @@ const PageButton = styled.button`
 `;
 
 const NewsListPage = () => {
-  const [newsItems, setNewsItems] = useState(newsData);
+  const [newsItems, setNewsItems] = useState([]); // 초기값을 빈 배열로 변경
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [error, setError] = useState(null); // 에러 상태 추가
   const [activeIndex, setActiveIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // API fetching logic would go here
-  }, []);
+    const fetchAnnouncements = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('http://localhost:8080/api/announcements');
+        setNewsItems(response.data);
+      } catch (err) {
+        console.error("Failed to fetch announcements:", err);
+        setError("공지사항을 불러오는 데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnnouncements();
+  }, []); // 컴포넌트 마운트 시 한 번만 실행
 
   const totalPages = Math.ceil(newsItems.length / ITEMS_PER_PAGE);
   const currentItems = newsItems.slice(
@@ -116,21 +135,43 @@ const NewsListPage = () => {
     setActiveIndex(null);
   };
 
+  if (loading) {
+    return (
+      <PageContainer>
+        <h1>📰 공지사항</h1>
+        <p>로딩 중...</p>
+      </PageContainer>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageContainer>
+        <h1>📰 공지사항</h1>
+        <p style={{ color: 'red' }}>{error}</p>
+      </PageContainer>
+    );
+  }
+
   return (
     <PageContainer>
-      <h1>📰 공지사항</h1>
+      <h1>공지사항</h1>
       <NewsListContainer>
-        {currentItems.map(item => (
-          <NewsItem key={item.id}>
-            <ItemHeader onClick={() => handleItemClick(item.id)}>
-              <h3>{item.title}</h3>
-              <span>{item.date}</span>
-            </ItemHeader>
-            {activeIndex === item.id && (
-              <ItemContent>{item.content}</ItemContent>
-            )}
-          </NewsItem>
-        ))}
+        {currentItems.length > 0 ? (
+          currentItems.map(item => (
+            <NewsItem key={item.id}>
+              <ItemHeader onClick={() => handleItemClick(item.id)}>
+                <h3>{item.title}</h3>
+                <span>{formatDate(item.createdAt)}</span> {/* 날짜 포맷팅 적용 */}
+              </ItemHeader>
+              {activeIndex === item.id && (
+                <ItemContent>{item.content}</ItemContent>
+              )}
+            </NewsItem>
+          ))
+        ) : (
+          <p style={{ textAlign: 'center', padding: '2rem' }}>공지사항이 없습니다.</p>
+        )}
       </NewsListContainer>
 
       {totalPages > 1 && (

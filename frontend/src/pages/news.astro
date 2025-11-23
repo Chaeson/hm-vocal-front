@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import NewsListPage from '@/pages/NewsListPage.jsx';
+---
+<BaseLayout title="공지사항">
+  <NewsListPage client:only="react" />
+</BaseLayout>

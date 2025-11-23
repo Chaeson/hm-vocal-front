@@ -1,0 +1,12 @@
+---
+// src/pages/index.astro
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroSection from '@/components/home/HeroSection.jsx';
+import ProgramsSummarySection from '@/components/home/ProgramsSummarySection.jsx';
+import LocationAndNewsSection from '@/components/home/LocationAndNewsSection.jsx';
+---
+<BaseLayout title="HM 보컬 실용 음악학원" bodyClass="homepage">
+  <HeroSection client:only="react" />
+  <ProgramsSummarySection client:only="react" />
+  <LocationAndNewsSection client:only="react" />
+</BaseLayout>

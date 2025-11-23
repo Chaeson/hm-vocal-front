@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AboutPage from '@/pages/AboutPage.jsx';
+---
+<BaseLayout title="학원 소개">
+  <AboutPage client:only="react" />
+</BaseLayout>

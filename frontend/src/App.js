@@ -2,20 +2,20 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
+import Header from './components/layout/Header.jsx';
+import Footer from './components/layout/Footer.jsx';
 import GlobalStyles from './assets/styles/global.css';
 
 // Import pages
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ProgramsPage from './pages/ProgramsPage';
-import InstructorsPage from './pages/InstructorsPage';
-import PlaylistPage from './pages/PlaylistPage';
-import NewsListPage from './pages/NewsListPage';
-import ContactPage from './pages/ContactPage';
-import AdminPage from './pages/admin/AdminPage';
-import FloatingToggle from './components/common/FloatingToggle';
+import HomePage from './pages/HomePage.jsx';
+import AboutPage from './pages/AboutPage.jsx';
+import ProgramsPage from './pages/ProgramsPage.jsx';
+import InstructorsPage from './pages/InstructorsPage.jsx';
+import PlaylistPage from './pages/PlaylistPage.jsx';
+import NewsListPage from './pages/NewsListPage.jsx';
+import ContactPage from './pages/ContactPage.jsx';
+import AdminPage from './pages/admin/AdminPage.jsx';
+import FloatingToggle from './components/common/FloatingToggle.jsx';
 
 const GlobalStyle = createGlobalStyle`
   ${GlobalStyles}

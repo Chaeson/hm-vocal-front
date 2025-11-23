@@ -1,0 +1,8 @@
+# Node modules
+node_modules
+
+# Service Account Key
+serviceAccountKey.json
+
+# Environment variables
+.env

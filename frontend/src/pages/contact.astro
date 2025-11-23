@@ -1,0 +1,7 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ContactPage from '@/pages/ContactPage.jsx';
+---
+<BaseLayout title="문의하기">
+  <ContactPage client:only="react" />
+</BaseLayout>
