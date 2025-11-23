@@ -192,7 +192,7 @@ const InstructorsPage = () => {
             </CardBody>
           </InstructorCard>
         ))}
-      </Grid>
+      </InstructorGrid>
 
       {selectedInstructor && (
         <ModalBackdrop onClick={handleCloseModal}>
