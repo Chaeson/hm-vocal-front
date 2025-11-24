@@ -32,6 +32,10 @@ const SectionImage = styled.img`
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const ContentWrapper = styled.div`
