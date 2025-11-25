@@ -3,30 +3,36 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const programsData = [
-  {
-    id: 'beginner',
-    title: '보컬 입문반',
-    description: `노래를 처음 시작하는 분들을 위한 과정입니다. \n기초 발성, 호흡법, 정확한 음정 연습을 통해 노래의 기본기를 탄탄하게 다집니다. \n자신의 목소리를 이해하고 자신감을 키우는 첫걸음이 될 것입니다.`,
-    image: 'https://images.pexels.com/photos/3775087/pexels-photo-3775087.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
-  {
-    id: 'audition',
-    title: '오디션 준비반',
-    description: `기획사 오디션, 대학 입시를 목표로 하는 분들을 위한 전문 과정입니다. \n개인의 매력을 극대화할 수 있는 곡 선정부터, 무대 퍼포먼스, 녹음 실습까지, \n실전 경험이 풍부한 전문 강사진이 합격을 위한 모든 것을 지도합니다.`,
-    image: 'https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
-  {
-    id: 'hobby',
-    title: '취미/직장인반',
-    description: `음악을 사랑하는 모든 분들을 위한 과정입니다. \n스트레스 해소, 자기 계발 등 각자의 목표에 맞춰 즐겁게 노래를 배울 수 있습니다. \n최신 가요, 팝, 뮤지컬 넘버 등 원하는 곡으로 레슨을 진행합니다.`,
-    image: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
-  {
-    id: 'advanced',
-    title: '심화 과정',
-    description: `프로 보컬리스트, 싱어송라이터를 꿈꾸는 분들을 위한 심화 과정입니다. \n더욱 깊이 있는 발성 테크닉, 다양한 장르의 곡 해석, 자신만의 음악 스타일을 구축하는 방법을 배웁니다. \n프로듀싱, 작곡 레슨과 연계도 가능합니다.`,
-    image: 'https://images.pexels.com/photos/811838/pexels-photo-811838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
+    {
+        id: 'hobby',
+        title: '취미/직장인반',
+        description: `보컬, 악기, 작곡, 미디`,
+        image: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    },
+    {
+        id: 'college',
+        title: '입시반',
+        description: `보컬, 악기, 작곡, 미디`,
+        image: 'https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    },
+    {
+        id: 'audition',
+        title: '오디션/프로반',
+        description: `보컬, 미디`,
+        image: 'https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    },
+    {
+        id: 'senior',
+        title: '시니어반',
+        description: `보컬, 악기`,
+        image: 'https://images.pexels.com/photos/3775087/pexels-photo-3775087.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    },
+    {
+        id: 'advanced',
+        title: '축가 준비반',
+        description: `보컬`,
+        image: 'https://images.pexels.com/photos/811838/pexels-photo-811838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    }
 ];
 
 const fadeIn = keyframes`
