@@ -77,10 +77,10 @@ const Footer = () => {
     <FooterBlock>
       <FooterContent>
         <InfoSection>
-          <h3>Vocal Academy</h3>
-          <p>주소: 서울특별시 강남구 테헤란로 123, 4층</p>
-          <p>전화: 02-1234-5678</p>
-          <p>이메일: contact@vocalacademy.com</p>
+          <h3>HM Vocal Academy</h3>
+          <p>주소: 인천타워대로 54번길 9, 에몬스프라자 3층 (송도동 9-19)</p>
+          <p>전화: 032-858-6555</p>
+          <p>이메일: hm_vocal@naver.com</p>
         </InfoSection>
         <LinksSection>
           <h4>바로가기</h4>
@@ -93,14 +93,14 @@ const Footer = () => {
         <LinksSection>
           <h4>소셜</h4>
           <ul>
-            <li><a href="#">블로그</a></li>
-            <li><a href="#">인스타그램</a></li>
-            <li><a href="#">YouTube</a></li>
+            <li><a href="https://blog.naver.com/hm_vocal">블로그</a></li>
+            <li><a href="https://www.instagram.com/hmvocal/">인스타그램</a></li>
+            <li><a href="https://www.youtube.com/@hmvocal2001">YouTube</a></li>
           </ul>
         </LinksSection>
       </FooterContent>
       <Copyright>
-        &copy; {new Date().getFullYear()} Vocal Academy. All Rights Reserved.
+        &copy; {new Date().getFullYear()}HM Vocal Academy. All Rights Reserved.
       </Copyright>
     </FooterBlock>
   );
