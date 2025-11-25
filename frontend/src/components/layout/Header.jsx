@@ -28,8 +28,8 @@ const Logo = styled.a`
   z-index: 101;
 
   img {
-    height: 80px;   /* 헤더에 맞는 높이 설정 */
-    width: 142px;  /* 16:9 비율에 맞는 너비 (80 * 16/9) */
+    height: 120px;   /* 헤더에 맞는 높이 설정 */
+    width: 240px;  /* 16:9 비율에 맞는 너비 (80 * 16/9) */
     object-fit: cover; /* 이미지가 비율에 맞게 채워지도록 설정 */
   }
 `;
