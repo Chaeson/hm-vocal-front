@@ -141,7 +141,7 @@ const ProgramsPage = ({ initialCourse }) => {
 
   return (
     <PageContainer>
-      <h1>📚 교육과정</h1>
+      <h1>교육과정</h1>
 
       <TabNav>
         {programsData.map(program => (
