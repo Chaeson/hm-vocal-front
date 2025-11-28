@@ -4,27 +4,33 @@ import styled from 'styled-components';
 // --- 데이터 (이미지 URL 포함) ---
 const programs = [
   {
-    id: 'beginner',
-    title: '보컬 입문반',
-    description: '기초부터 탄탄하게, 당신의 목소리를 찾아보세요. 호흡, 발성, 음정의 기본기를 다집니다.',
-    image: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
-    id: 'audition',
-    title: '오디션 준비반',
-    description: '전문적인 트레이닝으로 꿈의 무대에 도전하세요. 녹음 수업과 모의 오디션을 포함합니다.',
-    image: 'https://images.pexels.com/photos/1916817/pexels-photo-1916817.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
     id: 'hobby',
     title: '취미/직장인반',
-    description: '노래로 찾는 삶의 활력, 스트레스를 해소하세요. 최신 가요, 팝송 등 원하는 곡을 배웁니다.',
+    description: '간략 설명글',
     image: 'https://images.pexels.com/photos/45243/saxophone-music-gold-gloss-45243.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
-    id: 'advanced',
-    title: '심화 과정',
-    description: '테크닉을 완성하고 자신만의 스타일을 만드세요. 다양한 장르와 창법을 연구합니다.',
+    id: 'college',
+    title: '입시반',
+    description: '간략 설명글',
+    image: 'https://images.pexels.com/photos/3971985/pexels-photo-3971985.jpeg?auto=compress&cs=tinysrgb&w=400',
+  },
+  {
+    id: 'audition',
+    title: '오디션/프로반',
+    description: '간략 설명글',
+    image: 'https://images.pexels.com/photos/1916817/pexels-photo-1916817.jpeg?auto=compress&cs=tinysrgb&w=400',
+  },
+  {
+    id: 'senior',
+    title: '시니어반',
+    description: '간략 설명글',
+    image: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&w=400',
+  },
+  {
+    id: 'serenade',
+    title: '축가 준비반',
+    description: '간략 설명글',
     image: 'https://images.pexels.com/photos/3971985/pexels-photo-3971985.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
 ];

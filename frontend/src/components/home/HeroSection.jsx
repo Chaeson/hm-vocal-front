@@ -20,6 +20,14 @@ const recordingPlaylistData = {
   ],
 };
 
+ const studentAlbums = {
+     title: '수강생 앨범',
+     tracks: [
+         { id: 1, title: '첫 소절 (Audio)', artist: '김제미', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', coverArt: 'https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=300' },
+         { id: 2, title: 'My Dream (Video)', artist: '박노래', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', coverArt: 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217' },
+         { id: 3, title: '목소리 (Audio)', artist: '이보컬', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', coverArt: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=300' },
+     ]
+ };
 const bgImages = [
   'https://images.pexels.com/photos/196652/pexels-photo-196652.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -108,9 +116,13 @@ const ContentPanel = styled.div`
   flex-grow: 1; overflow-y: auto; padding: 1rem;
 `;
 const PreviewItem = styled.div`
-  display: flex; align-items: center; margin: 0.5rem; padding: 0.75rem; border-radius: 8px;
+  display: flex; align-items: center; margin: 0.5rem; padding: 0.75rem;
   transition: background-color 0.2s; cursor: pointer;
-  &:hover { background-color: rgba(0, 0, 0, 0.05); }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  &:hover { 
+    background-color: rgba(0, 0, 0, 0.05); 
+    border-radius: 8px;
+  }
   img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; flex-shrink: 0; }
   div { p { margin: 0; color: #333; } .title { font-weight: 600; } .artist { font-size: 0.9rem; color: #666; } }
 `;
@@ -178,6 +190,19 @@ const HeroSection = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
+  const renderContentPanel = () => {
+    switch (activeTab) {
+      case 'video':
+        return <DataPreview tracks={videoPlaylistData.tracks} onItemClick={setModalItem} />;
+      case 'audio':
+        return <DataPreview tracks={recordingPlaylistData.tracks} onItemClick={setModalItem} />;
+      case 'album':
+        return <DataPreview tracks={studentAlbums.tracks} onItemClick={setModalItem}/>
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <HeroLayout bgImage={bgImages[currentImageIndex]}>
@@ -189,13 +214,10 @@ const HeroSection = () => {
           <TabMenu>
             <TabButton active={activeTab === 'video'} onClick={() => setActiveTab('video')}>영상 자료</TabButton>
             <TabButton active={activeTab === 'audio'} onClick={() => setActiveTab('audio')}>녹음 자료</TabButton>
+            <TabButton active={activeTab === 'album'} onClick={() => setActiveTab('album')}>수강생 앨범</TabButton>
           </TabMenu>
           <ContentPanel>
-            {activeTab === 'video' ? (
-              <DataPreview tracks={videoPlaylistData.tracks} onItemClick={setModalItem} />
-            ) : (
-              <DataPreview tracks={recordingPlaylistData.tracks} onItemClick={setModalItem} />
-            )}
+            {renderContentPanel()}
           </ContentPanel>
         </InteractiveArea>
       </HeroLayout>

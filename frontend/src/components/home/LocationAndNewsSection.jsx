@@ -31,8 +31,8 @@ const SectionTitle = styled.h2`
 const latestNews = {
   to: '/news',
   image: 'https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=600',
-  title: '제 15회 정기 연주회 안내',
-  subtitle: '2024년 12월 20일, 수강생 여러분의 멋진 무대를 기대해주세요!',
+  title: '최근 공지사항',
+  subtitle: '가장 최근 공지사항',
 };
 
 const LocationAndNewsSection = () => {
