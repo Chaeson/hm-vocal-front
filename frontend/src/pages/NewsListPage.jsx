@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios'; // axios import
+import axios from 'axios';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -12,25 +12,81 @@ const formatDate = (timestamp) => {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).replace(/\. /g, '-').replace(/\.$/, ''); // "YYYY-MM-DD" 형식으로
+  }).replace(/\. /g, '-').replace(/\.$/, '');
 };
 
+// --- 레이아웃 스타일 ---
 const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem 0;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
-const NewsListContainer = styled.div`
+const PageTitle = styled.h1`
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: center;
+`;
+
+const LayoutContainer = styled.div`
+  display: flex;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const SideMenu = styled.aside`
+  width: 200px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 2rem;
+  }
+`;
+
+const MenuButton = styled.button`
+  display: block;
   width: 100%;
-  max-width: 900px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  background: ${props => props.active ? 'var(--primary-color)' : 'transparent'};
+  color: ${props => props.active ? 'white' : '#333'};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${props => props.active ? 'var(--primary-color)' : '#f0f0f0'};
+  }
+
+  @media (max-width: 768px) {
+    text-align: center;
+    flex-grow: 1;
+  }
+`;
+
+const ContentContainer = styled.main`
+  flex-grow: 1;
+`;
+
+// --- 게시판 리스트 스타일 (기존과 유사) ---
+const PostListContainer = styled.div`
+  width: 100%;
   border-top: 2px solid var(--primary-color);
   min-height: 500px;
 `;
 
-const NewsItem = styled.div`
+const PostItem = styled.div`
   border-bottom: 1px solid #e0e0e0;
 `;
 
@@ -61,7 +117,7 @@ const ItemHeader = styled.div`
 `;
 
 const ItemContent = styled.div`
-  padding: 0 1.5rem 1.5rem 1.5rem;
+  padding: 2rem;
   font-size: 1rem;
   line-height: 1.7;
   color: #555;
@@ -76,7 +132,7 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 2rem 0;
 `;
 
 const PageButton = styled.button`
@@ -96,33 +152,50 @@ const PageButton = styled.button`
   }
 `;
 
+const boards = {
+  announcements: {
+    title: '공지사항',
+    apiUrl: '/api/announcements',
+  },
+  community: {
+    title: '자유 게시판',
+    apiUrl: '/api/community', // 자유게시판 API 엔드포인트 (가정)
+  },
+};
+
 const NewsListPage = () => {
-  const [newsItems, setNewsItems] = useState([]); // 초기값을 빈 배열로 변경
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const [error, setError] = useState(null); // 에러 상태 추가
+  const [activeBoard, setActiveBoard] = useState('announcements');
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchAnnouncements = async () => {
+    const fetchPosts = async () => {
       try {
         setLoading(true);
-        const apiUrl = 'http://158.180.83.230:8080';
-        const response = await axios.get(`${apiUrl}/api/announcements`);
-        setNewsItems(response.data);
+        setError(null);
+        const board = boards[activeBoard];
+        const apiUrl = `http://158.180.83.230:8080${board.apiUrl}`;
+        const response = await axios.get(apiUrl);
+        setPosts(response.data);
+        setCurrentPage(1); // 게시판 변경 시 1페이지로 초기화
+        setActiveIndex(null); // 열려있는 항목 초기화
       } catch (err) {
-        console.error("Failed to fetch announcements:", err);
-        setError("공지사항을 불러오는 데 실패했습니다.");
+        console.error(`Failed to fetch ${activeBoard}:`, err);
+        setPosts([]); // 에러 발생 시 게시글 목록 비우기
+        setError(`${boards[activeBoard].title}을(를) 불러오는 데 실패했습니다.`);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAnnouncements();
-  }, []); // 컴포넌트 마운트 시 한 번만 실행
+    fetchPosts();
+  }, [activeBoard]); // activeBoard가 변경될 때마다 데이터 다시 불러오기
 
-  const totalPages = Math.ceil(newsItems.length / ITEMS_PER_PAGE);
-  const currentItems = newsItems.slice(
+  const totalPages = Math.ceil(posts.length / ITEMS_PER_PAGE);
+  const currentItems = posts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -136,58 +209,64 @@ const NewsListPage = () => {
     setActiveIndex(null);
   };
 
-  if (loading) {
-    return (
-      <PageContainer>
-        <h1>📰 공지사항</h1>
-        <p>로딩 중...</p>
-      </PageContainer>
-    );
-  }
-
-  if (error) {
-    return (
-      <PageContainer>
-        <h1>📰 공지사항</h1>
-        <p style={{ color: 'red' }}>{error}</p>
-      </PageContainer>
-    );
-  }
-
   return (
     <PageContainer>
-      <h1>공지사항</h1>
-      <NewsListContainer>
-        {currentItems.length > 0 ? (
-          currentItems.map(item => (
-            <NewsItem key={item.id}>
-              <ItemHeader onClick={() => handleItemClick(item.id)}>
-                <h3>{item.title}</h3>
-                <span>{formatDate(item.createdAt)}</span> {/* 날짜 포맷팅 적용 */}
-              </ItemHeader>
-              {activeIndex === item.id && (
-                <ItemContent>{item.content}</ItemContent>
-              )}
-            </NewsItem>
-          ))
-        ) : (
-          <p style={{ textAlign: 'center', padding: '2rem' }}>공지사항이 없습니다.</p>
-        )}
-      </NewsListContainer>
-
-      {totalPages > 1 && (
-        <PaginationContainer>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
-            <PageButton
-              key={number}
-              active={currentPage === number}
-              onClick={() => handlePageChange(number)}
+      <PageTitle>{boards[activeBoard].title}</PageTitle>
+      <LayoutContainer>
+        <SideMenu>
+          {Object.keys(boards).map(boardKey => (
+            <MenuButton
+              key={boardKey}
+              active={activeBoard === boardKey}
+              onClick={() => setActiveBoard(boardKey)}
             >
-              {number}
-            </PageButton>
+              {boards[boardKey].title}
+            </MenuButton>
           ))}
-        </PaginationContainer>
-      )}
+        </SideMenu>
+
+        <ContentContainer>
+          {loading ? (
+            <p>로딩 중...</p>
+          ) : error ? (
+            <p style={{ color: 'red' }}>{error}</p>
+          ) : (
+            <>
+              <PostListContainer>
+                {currentItems.length > 0 ? (
+                  currentItems.map(item => (
+                    <PostItem key={item.id}>
+                      <ItemHeader onClick={() => handleItemClick(item.id)}>
+                        <h3>{item.title}</h3>
+                        <span>{formatDate(item.createdAt)}</span>
+                      </ItemHeader>
+                      {activeIndex === item.id && (
+                        <ItemContent>{item.content}</ItemContent>
+                      )}
+                    </PostItem>
+                  ))
+                ) : (
+                  <p style={{ textAlign: 'center', padding: '2rem' }}>게시글이 없습니다.</p>
+                )}
+              </PostListContainer>
+
+              {totalPages > 1 && (
+                <PaginationContainer>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                    <PageButton
+                      key={number}
+                      active={currentPage === number}
+                      onClick={() => handlePageChange(number)}
+                    >
+                      {number}
+                    </PageButton>
+                  ))}
+                </PaginationContainer>
+              )}
+            </>
+          )}
+        </ContentContainer>
+      </LayoutContainer>
     </PageContainer>
   );
 };
