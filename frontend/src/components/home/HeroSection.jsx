@@ -151,7 +151,7 @@ const HeroSection = () => {
     const fetchPlaylist = async () => {
       try {
         setLoading(true);
-        const apiUrl = 'http://localhost:8080/api/student-works';
+        const apiUrl = 'http://158.180.83.230:8080/api/student-works';
         const response = await axios.get(apiUrl);
         setPlaylist(response.data);
       } catch (err) {
