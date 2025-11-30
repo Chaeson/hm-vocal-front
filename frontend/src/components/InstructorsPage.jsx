@@ -153,7 +153,7 @@ const ExpandedBody = styled.div`
   
   h3 { font-size: 2.8rem; margin-bottom: 1rem; }
   p.specialty { font-size: 1.3rem; font-weight: 500; color: var(--primary-color); margin-bottom: 2rem; }
-  p.bio { font-size: 1.1rem; line-height: 1.8; color: #555; }
+  p.bio { font-size: 1.1rem; line-height: 1.8; color: #555; white-space:pre-wrap;}
 `;
 
 const CloseButton = styled.button`
@@ -238,7 +238,6 @@ const InstructorsPage = () => {
                   .map(cat => tabLabels[cat] || cat)
                   .join(' / ')}
               </p>
-              <p className="bio">{instructor.cardBio}</p>
             </CardBody>
           </InstructorCard>
         ))}

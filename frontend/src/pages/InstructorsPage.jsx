@@ -3,25 +3,6 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import { IoIosArrowDown, IoIosClose } from 'react-icons/io'; // Ensure react-icons is installed
 
-// 1. 이미지 import (현재 데이터에 이미지가 없으므로 주석 처리 또는 플레이스홀더 사용)
-// import daeyoungLeeImage from '@/assets/images/instructors/v_daeyoung_lee.jpg';
-
-// 2. 정적 데이터 생성 (초기값)
-const initialInstructorsData = [
-  { id: 1, name: '이대영', category: ['Vocal'], cardBio: '감성을 자극하는 목소리, 맞춤형 보컬 트레이닝 전문가.', image: "" },
-  { id: 2, name: '김미지', category: ['Vocal', 'Piano'], cardBio: '따뜻한 음색과 풍부한 감성 표현의 노하우를 전수합니다.', image: "" },
-  { id: 3, name: '박지영', category: ['Vocal'], cardBio: '다양한 장르를 소화하는 실전형 보컬 트레이너.', image: "" },
-  { id: 4, name: '김지연', category: ['Vocal'], cardBio: '기초부터 탄탄하게, 정확한 음정과 발성을 지도합니다.', image: "" },
-  { id: 5, name: '추은경', category: ['Vocal'], cardBio: '파워풀한 고음과 섬세한 표현력을 위한 보컬 코치.', image: "" },
-  { id: 6, name: '한혜영', category: ['Vocal'], cardBio: '따뜻한 음색과 풍부한 감성 표현의 노하우를 전수합니다.', image: "" },
-  { id: 7, name: '권예린', category: ['Piano', 'Writer', 'Harmonics', 'AuralSkills'], cardBio: '피아노 연주와 함께하는 시창청음 및 화성학.', image: "" },
-  { id: 8, name: '김민영', category: ['Piano', 'Writer', 'Harmonics', 'AuralSkills'], cardBio: '작사/작곡 입문부터 프로까지, 자신만의 음악 만들기.', image: "" },
-  { id: 9, name: '이슬비', category: ['Piano', 'AuralSkills'], cardBio: '클래식과 재즈를 넘나드는 피아노 레슨.', image: "" },
-  { id: 10, name: '김준태', category: ['Guitar'], cardBio: '기타, 베이스, 드럼 등 밴드 악기 전문 레슨.', image: "" },
-  { id: 11, name: '정주영', category: ['Guitar'], cardBio: '어쿠스틱 감성부터 일렉트릭 사운드까지 마스터.', image: "" },
-  { id: 12, name: '안창현', category: ['MIDI', 'Acoustics'], cardBio: '트렌디한 사운드 메이킹과 프로페셔널한 믹싱/마스터링.', image: "" },
-];
-
 // 3. 탭 레이블 맵
 const tabLabels = {
   All: '전체',
@@ -170,7 +151,12 @@ const ExpandedBody = styled.div`
   
   h3 { font-size: 2.8rem; margin-bottom: 1rem; }
   p.specialty { font-size: 1.3rem; font-weight: 500; color: var(--primary-color); margin-bottom: 2rem; }
-  p.bio { font-size: 1.1rem; line-height: 1.8; color: #555; }
+  p.bio { 
+    font-size: 1.1rem; 
+    line-height: 1.8; 
+    color: #555; 
+    white-space: pre-wrap;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -357,7 +343,7 @@ const DropdownItem = styled.div`
 const InstructorsPage = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [expandedId, setExpandedId] = useState(null);
-  const [instructors, setInstructors] = useState(initialInstructorsData);
+  const [instructors, setInstructors] = useState([]);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   // Upload Form State
@@ -393,7 +379,7 @@ const InstructorsPage = () => {
     try {
       const response = await axios.get('http://localhost:8080/api/instructors');
       if (response.data && response.data.length > 0) {
-        setInstructors([...initialInstructorsData, ...response.data]);
+        setInstructors(response.data);
       }
     } catch (error) {
       console.error("Failed to fetch instructors:", error);
@@ -491,7 +477,6 @@ const InstructorsPage = () => {
             <CardBody>
               <h3>{instructor.name}</h3>
               <p className="specialty">{instructor.category.map(cat => tabLabels[cat] || cat).join(' / ')}</p>
-              <p className="bio">{instructor.cardBio}</p>
             </CardBody>
           </InstructorCard>
         ))}
@@ -506,68 +491,11 @@ const InstructorsPage = () => {
               <ExpandedBody>
                 <h3>{expandedInstructor.name}</h3>
                 <p className="specialty">{expandedInstructor.category.map(cat => tabLabels[cat] || cat).join(' / ')}</p>
-                <p className="bio">{expandedInstructor.cardBio}</p>
+                {/* [수정] cardBio가 존재할 때만, \r\n을 \n으로 변환하여 렌더링 */}
+                <p className="bio">{expandedInstructor.cardBio && expandedInstructor.cardBio.replace(/\\r\\n/g, '\n')}</p>
               </ExpandedBody>
             </ExpandedCard>
           </ExpandedWrapper>
-        </ExpandedViewBackdrop>
-      )}
-
-      <UploadButton onClick={() => setIsUploadModalOpen(true)}>
-        + 강사 추가
-      </UploadButton>
-
-      {isUploadModalOpen && (
-        <ExpandedViewBackdrop onClick={() => setIsUploadModalOpen(false)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <FormTitle>새 강사 등록</FormTitle>
-            <form onSubmit={handleSubmit}>
-              <FormGroup>
-                <label>이름</label>
-                <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-              </FormGroup>
-              <FormGroup>
-                <label>카테고리</label>
-                <SelectContainer ref={dropdownRef}>
-                  <SelectTrigger onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                    {formData.category.length > 0 ? (
-                      formData.category.map(cat => (
-                        <Tag key={cat} onClick={(e) => { e.stopPropagation(); handleCategoryToggle(cat); }}>
-                          {tabLabels[cat]}
-                          <RemoveTag><IoIosClose /></RemoveTag>
-                        </Tag>
-                      ))
-                    ) : (
-                      <span style={{ color: '#aaa' }}>카테고리를 선택하세요</span>
-                    )}
-                    <IoIosArrowDown style={{ marginLeft: 'auto', color: '#888' }} />
-                  </SelectTrigger>
-                  <DropdownMenu isOpen={isDropdownOpen}>
-                    {Object.keys(tabLabels).filter(k => k !== 'All').map(key => (
-                      <DropdownItem
-                        key={key}
-                        isSelected={formData.category.includes(key)}
-                        onClick={() => handleCategoryToggle(key)}
-                      >
-                        {tabLabels[key]}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </SelectContainer>
-              </FormGroup>
-              <FormGroup>
-                <label>소개 (Bio)</label>
-                <textarea name="cardBio" value={formData.cardBio} onChange={handleInputChange} />
-              </FormGroup>
-              <FormGroup>
-                <label>프로필 이미지</label>
-                <input type="file" accept="image/*" onChange={handleFileChange} required />
-              </FormGroup>
-              <SubmitButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? '업로드 중...' : '등록하기'}
-              </SubmitButton>
-            </form>
-          </ModalContent>
         </ExpandedViewBackdrop>
       )}
     </PageContainer>
