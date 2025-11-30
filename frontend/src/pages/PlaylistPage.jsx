@@ -1,37 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { FaPlay, FaHeadphones } from 'react-icons/fa';
+import { FaPlay, FaHeadphones, FaCompactDisc } from 'react-icons/fa';
+import axios from 'axios';
 
-// 1. 데이터 카테고리를 명확하게 분리
-const playlistData = [
-  {
-    id: 'student-video-1', category: ['Video'], type: 'video', title: '팝송 커버', artist: '김제미',
-    cardBio: '오디션반 수강생의 열정적인 팝송 커버 영상입니다.',
-    longBio: 'Adele의 "Someone Like You"를 자신만의 감성으로 재해석했습니다. 수강 3개월 차의 놀라운 성장을 확인해보세요.',
-    src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-    coverArt: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 'student-video-2', category: ['Video'], type: 'video', title: 'My Dream (Cover)', artist: '박노래',
-    cardBio: '프로반 수강생의 완성도 높은 커버 영상입니다.',
-    longBio: '꿈을 향한 진솔한 마음을 담아 부른 곡입니다. 안정적인 발성과 섬세한 감정 표현이 돋보입니다.',
-    src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    coverArt: 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217',
-  },
-  { id: 'lesson-audio-1', category: ['Recording'], type: 'audio', title: '첫 소절', artist: '김제미', cardBio: '기초 발성 연습 녹음 파일입니다.', longBio: '호흡과 발성의 기본기를 다지는 레슨의 실제 녹음 파일입니다. 레슨 전후의 변화를 느껴보세요.', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', coverArt: 'https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'lesson-audio-2', category: ['Recording'], type: 'audio', title: '목소리', artist: '이보컬', cardBio: '고음역대 확장 훈련 녹음 파일입니다.', longBio: '믹스보이스를 활용하여 고음역대를 안정적으로 내는 훈련 과정의 일부입니다.', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', coverArt: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'lesson-audio-3', category: ['Recording'], type: 'audio', title: '연습일지', artist: '정연습', cardBio: '리듬감 향상 훈련 녹음 파일입니다.', longBio: '다양한 장르의 리듬에 맞춰 노래하는 연습을 통해 그루브와 표현력을 향상시키는 과정을 담았습니다.', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', coverArt: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'release-audio-1', category: ['Release'], type: 'audio', title: '자작곡 "새벽길"', artist: '김민영', cardBio: '작곡가반 김민영 수강생의 첫 디지털 싱글입니다.', longBio: '작사, 작곡, 편곡까지 모든 과정을 직접 소화한 곡입니다. 새벽의 감성을 담은 멜로디와 가사가 인상적입니다.', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', coverArt: 'https://images.pexels.com/photos/3756766/pexels-photo-3756766.jpeg?auto=compress&cs=tinysrgb&w=300' },
-];
-
-// 2. 탭 레이블 맵
+// 탭 레이블 맵
 const tabLabels = {
   Video: '영상 자료',
   Recording: '수강생 녹음',
-  Release: '음원 발매',
+  Album: '음원 발매',
 };
 
-// --- 스타일 컴포넌트 (InstructorsPage와 동일 구조) ---
+// --- 스타일 컴포넌트 (기존 유지) ---
 const fadeIn = keyframes` from { opacity: 0; } to { opacity: 1; }`;
 const PageContainer = styled.div` padding: 2rem; `;
 const PageTitle = styled.h1` font-size: 2.8rem; font-weight: 700; margin-bottom: 2rem; text-align: center; `;
@@ -223,13 +202,40 @@ const CloseButton = styled.button`
   }
 `;
 
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #999;
+  font-size: 1.2rem;
+`;
+
 // --- 메인 컴포넌트 ---
 const PlaylistPage = () => {
   const tabs = Object.keys(tabLabels);
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [expandedItem, setExpandedItem] = useState(null);
+  const [studentWorks, setStudentWorks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredMedia = playlistData.filter(item => item.category.includes(activeTab));
+  useEffect(() => {
+    fetchStudentWorks();
+  }, []);
+
+  const fetchStudentWorks = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://localhost:8080/api/student-works');
+      if (response.data) {
+        setStudentWorks(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch student works:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredMedia = studentWorks.filter(item => item.category === activeTab);
 
   const handleCardClick = (item) => {
     setExpandedItem(item);
@@ -237,6 +243,19 @@ const PlaylistPage = () => {
 
   const handleClose = () => {
     setExpandedItem(null);
+  };
+
+  const getIcon = (category) => {
+    switch (category) {
+      case 'Video':
+        return <FaPlay />;
+      case 'Recording':
+        return <FaHeadphones />;
+      case 'Album':
+        return <FaCompactDisc />;
+      default:
+        return <FaPlay />;
+    }
   };
 
   return (
@@ -253,20 +272,26 @@ const PlaylistPage = () => {
         ))}
       </TabNav>
 
-      <MediaGrid>
-        {filteredMedia.map((item) => (
-          <MediaCard key={item.id} onClick={() => handleCardClick(item)}>
-            <CardThumbnail>
-              <img src={item.coverArt} alt={item.title} />
-              {item.type === 'video' ? <FaPlay /> : <FaHeadphones />}
-            </CardThumbnail>
-            <CardBody>
-              <h3>{item.title}</h3>
-              <p>{item.artist}</p>
-            </CardBody>
-          </MediaCard>
-        ))}
-      </MediaGrid>
+      {loading ? (
+        <EmptyState>작품을 불러오는 중...</EmptyState>
+      ) : filteredMedia.length === 0 ? (
+        <EmptyState>등록된 작품이 없습니다.</EmptyState>
+      ) : (
+        <MediaGrid>
+          {filteredMedia.map((item) => (
+            <MediaCard key={item.id} onClick={() => handleCardClick(item)}>
+              <CardThumbnail>
+                <img src={item.coverImage} alt={item.title} />
+                {getIcon(item.category)}
+              </CardThumbnail>
+              <CardBody>
+                <h3>{item.title}</h3>
+                <p>{item.studentName}</p>
+              </CardBody>
+            </MediaCard>
+          ))}
+        </MediaGrid>
+      )}
 
       {expandedItem && (
         <ExpandedViewBackdrop onClick={handleClose}>
@@ -274,18 +299,17 @@ const PlaylistPage = () => {
             <CloseButton onClick={handleClose}>&times;</CloseButton>
             <ExpandedCard onClick={(e) => e.stopPropagation()}>
               <PlayerContainer>
-                {expandedItem.type === 'video' ? (
-                  <video src={expandedItem.src} controls autoPlay />
+                {expandedItem.category === 'Video' && expandedItem.mediaFile ? (
+                  <video src={expandedItem.mediaFile} controls autoPlay />
                 ) : (
-                  <img src={expandedItem.coverArt} alt={expandedItem.title} />
+                  <img src={expandedItem.coverImage} alt={expandedItem.title} />
                 )}
               </PlayerContainer>
               <ExpandedBody>
                 <h3>{expandedItem.title}</h3>
-                <p className="artist">{expandedItem.artist}</p>
-                <p className="bio">{expandedItem.longBio || expandedItem.cardBio}</p>
-                {expandedItem.type === 'audio' && (
-                  <audio src={expandedItem.src} controls autoPlay />
+                <p className="artist">{expandedItem.studentName}</p>
+                {(expandedItem.category === 'Recording' || expandedItem.category === 'Album') && expandedItem.mediaFile && (
+                  <audio src={expandedItem.mediaFile} controls autoPlay />
                 )}
               </ExpandedBody>
             </ExpandedCard>

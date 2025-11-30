@@ -177,7 +177,7 @@ const NewsListPage = () => {
         setLoading(true);
         setError(null);
         const board = boards[activeBoard];
-        const apiUrl = `http://158.180.83.230:8080${board.apiUrl}`;
+        const apiUrl = `http://localhost:8080${board.apiUrl}`;
         const response = await axios.get(apiUrl);
         setPosts(response.data);
         setCurrentPage(1); // 게시판 변경 시 1페이지로 초기화
