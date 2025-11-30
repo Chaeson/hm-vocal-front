@@ -224,7 +224,7 @@ const PlaylistPage = () => {
   const fetchStudentWorks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:8080/api/student-works');
+      const response = await axios.get('http://158.180.83.230:8080/api/student-works');
       if (response.data) {
         setStudentWorks(response.data);
       }

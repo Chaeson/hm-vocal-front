@@ -186,7 +186,7 @@ const InstructorsPage = () => {
 
   const fetchInstructors = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/instructors');
+      const response = await axios.get('http://158.180.83.230:8080/api/instructors');
       if (response.data && response.data.length > 0) {
         setInstructors(response.data);
       }

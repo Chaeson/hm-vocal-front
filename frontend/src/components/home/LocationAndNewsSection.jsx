@@ -153,7 +153,7 @@ const LocationAndNewsSection = () => {
     const fetchLatestPosts = async () => {
       try {
         setLoading(true);
-        const apiUrl = 'http://localhost:8080/api/announcements';
+        const apiUrl = 'http://158.180.83.230:8080/api/announcements';
         const response = await axios.get(apiUrl);
         if (response.data && response.data.length > 0) {
           setLatestPosts(response.data.slice(0, 4)); // 최대 3개의 최신 게시물
