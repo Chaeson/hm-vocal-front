@@ -1,33 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import axios from 'axios';
 
-// --- 임시 데이터 (src, type 추가) ---
-const videoPlaylistData = {
-  title: '영상 자료',
-  tracks: [
-    { id: 1, title: 'For Bigger Blazes', artist: 'Blender Foundation', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', coverArt: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg' },
-    { id: 2, title: 'Elephant\'s Dream', artist: 'Blender Foundation', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', coverArt: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg' },
-    { id: 3, title: 'For Bigger Fun', artist: 'Blender Foundation', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4', coverArt: 'https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg' },
-  ],
-};
-
-const recordingPlaylistData = {
-  title: '녹음 자료',
-  tracks: [
-    { id: 1, title: '첫 소절 (Audio)', artist: '김제미', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', coverArt: 'https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=300' },
-    { id: 2, title: 'My Dream (Video)', artist: '박노래', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', coverArt: 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217' },
-    { id: 3, title: '목소리 (Audio)', artist: '이보컬', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', coverArt: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  ],
-};
-
- const studentAlbums = {
-     title: '수강생 앨범',
-     tracks: [
-         { id: 1, title: '첫 소절 (Audio)', artist: '김제미', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', coverArt: 'https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=300' },
-         { id: 2, title: 'My Dream (Video)', artist: '박노래', type: 'video', src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', coverArt: 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217' },
-         { id: 3, title: '목소리 (Audio)', artist: '이보컬', type: 'audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', coverArt: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=300' },
-     ]
- };
 const bgImages = [
   'https://images.pexels.com/photos/196652/pexels-photo-196652.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -37,27 +11,27 @@ const bgImages = [
 // --- 스타일 컴포넌트 ---
 const fadeIn = keyframes` from { opacity: 0; } to { opacity: 1; }`;
 const HeroLayout = styled.section`
-  position: relative; 
-  display: flex; 
-  align-items: center; 
-  height: 100vh; 
-  padding: 0 550px 0 6rem; 
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding: 0 550px 0 6rem;
   color: white;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${props => props.bgImage}) center/cover no-repeat;
-  transition: background-image 1s ease-in-out; 
-  overflow: hidden; 
+  transition: background-image 1s ease-in-out;
+  overflow: hidden;
   width: 100%;
-  
-  @media (max-width: 1024px) { 
+
+  @media (max-width: 1024px) {
     padding: 0 450px 0 3rem;
   }
-  @media (max-width: 768px) { 
-    flex-direction: column; 
-    justify-content: center; 
-    height: auto; 
-    min-height: 100vh; 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
     padding: 5rem 2rem;
-    text-align: center; 
+    text-align: center;
   }
 `;
 const Content = styled.div`
@@ -83,15 +57,15 @@ const InteractiveArea = styled.div`
   right: 0;
   height: 100%;
   width: 500px;
-  
-  background-color: rgba(255, 255, 255, 0.6); /* 투명도 0.6으로 수정 */
+
+  background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px) saturate(180%);
-  
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 3;
-  
+
   @media (max-width: 1024px) {
     width: 400px;
   }
@@ -113,52 +87,33 @@ const TabButton = styled.button`
   &:hover { color: #007bff; background-color: rgba(0, 0, 0, 0.05); }
 `;
 const ContentPanel = styled.div`
-  flex-grow: 1; overflow-y: auto; padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+
+  p {
+    text-align: center;
+    color: #555;
+    padding-top: 2rem;
+  }
 `;
 const PreviewItem = styled.div`
   display: flex; align-items: center; margin: 0.5rem; padding: 0.75rem;
-  transition: background-color 0.2s; cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  &:hover { 
-    background-color: rgba(0, 0, 0, 0.05); 
-    border-radius: 8px;
-  }
-  img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; flex-shrink: 0; }
-  div { p { margin: 0; color: #333; } .title { font-weight: 600; } .artist { font-size: 0.9rem; color: #666; } }
-`;
 
-// --- 모달 스타일 ---
-const ModalBackdrop = styled.div`
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000;
-  animation: ${fadeIn} 0.3s;
-`;
-const ModalContent = styled.div`
-  background: white; border-radius: 16px; padding: 1rem;
-  max-width: 900px; width: 90%;
-  position: relative;
-`;
-const CloseButton = styled.button`
-  position: absolute; top: -40px; right: 0;
-  background: none; color: white; border: none;
-  font-size: 2.5rem; cursor: pointer;
-`;
-const PlayerWrapper = styled.div`
-  width: 100%;
-  video, audio { width: 100%; border-radius: 8px; }
+  img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; flex-shrink: 0; }
+  div { p { margin: 0; color: #333; text-align: left; padding-top: 0; } .title { font-weight: 600; } .artist { font-size: 0.9rem; color: #666; } }
 `;
 
 // --- 컴포넌트 ---
-const DataPreview = ({ tracks, onItemClick }) => (
+const DataPreview = ({ tracks }) => (
   <div>
     {tracks.map(track => (
-      <PreviewItem key={track.id} onClick={() => onItemClick(track)}>
-        <img src={track.coverArt} alt={track.title} />
+      <PreviewItem key={track.id}>
+        <img src={track.coverImage} alt={track.title} />
         <div>
           <p className="title">{track.title}</p>
-          <p className="artist">{track.artist}</p>
+          <p className="artist">{track.studentName}</p>
         </div>
       </PreviewItem>
     ))}
@@ -167,16 +122,18 @@ const DataPreview = ({ tracks, onItemClick }) => (
 
 const HeroSection = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState('video');
-  const [modalItem, setModalItem] = useState(null);
+  const [activeTab, setActiveTab] = useState('Video');
+  const [playlist, setPlaylist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const isScrolling = useRef(false);
 
-  useEffect(() => { /* 이미지 슬라이더 로직 */
+  useEffect(() => {
     const interval = setInterval(() => { setCurrentImageIndex(prev => (prev + 1) % bgImages.length); }, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => { /* 스크롤 이벤트 로직 */
+  useEffect(() => {
     const handleWheel = (e) => {
       if (isScrolling.current) return;
       if (window.scrollY < window.innerHeight && e.deltaY > 0 && window.scrollY < 10) {
@@ -190,54 +147,63 @@ const HeroSection = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = 'http://localhost:8080/api/student-works';
+        const response = await axios.get(apiUrl);
+        setPlaylist(response.data);
+      } catch (err) {
+        setError('데이터를 불러오는 데 실패했습니다.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPlaylist();
+  }, []);
+
+  // [수정] category가 문자열 또는 배열인 경우 모두 처리하는 안전한 필터링 로직
+  const filteredTracks = Array.isArray(playlist)
+    ? playlist.filter(track => {
+        if (!track || !track.category) {
+          return false;
+        }
+        if (Array.isArray(track.category)) {
+          return track.category.includes(activeTab);
+        }
+        if (typeof track.category === 'string') {
+          return track.category === activeTab;
+        }
+        return false;
+      })
+    : [];
+
   const renderContentPanel = () => {
-    switch (activeTab) {
-      case 'video':
-        return <DataPreview tracks={videoPlaylistData.tracks} onItemClick={setModalItem} />;
-      case 'audio':
-        return <DataPreview tracks={recordingPlaylistData.tracks} onItemClick={setModalItem} />;
-      case 'album':
-        return <DataPreview tracks={studentAlbums.tracks} onItemClick={setModalItem}/>
-      default:
-        return null;
-    }
+    if (loading) return <p>로딩 중...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (filteredTracks.length === 0) return <p>표시할 항목이 없습니다.</p>;
+    return <DataPreview tracks={filteredTracks} />;
   };
 
   return (
-    <>
-      <HeroLayout bgImage={bgImages[currentImageIndex]}>
-        <Content>
-          <Title>당신의 목소리가 작품이 되는 곳</Title>
-          <Subtitle>최고의 강사진과 함께 꿈을 현실로 만드세요.</Subtitle>
-        </Content>
-        <InteractiveArea>
-          <TabMenu>
-            <TabButton active={activeTab === 'video'} onClick={() => setActiveTab('video')}>영상 자료</TabButton>
-            <TabButton active={activeTab === 'audio'} onClick={() => setActiveTab('audio')}>녹음 자료</TabButton>
-            <TabButton active={activeTab === 'album'} onClick={() => setActiveTab('album')}>수강생 앨범</TabButton>
-          </TabMenu>
-          <ContentPanel>
-            {renderContentPanel()}
-          </ContentPanel>
-        </InteractiveArea>
-      </HeroLayout>
-
-      {/* 모달 렌더링 */}
-      {modalItem && (
-        <ModalBackdrop onClick={() => setModalItem(null)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={() => setModalItem(null)}>&times;</CloseButton>
-            <PlayerWrapper>
-              {modalItem.type === 'video' ? (
-                <video src={modalItem.src} controls autoPlay />
-              ) : (
-                <audio src={modalItem.src} controls autoPlay />
-              )}
-            </PlayerWrapper>
-          </ModalContent>
-        </ModalBackdrop>
-      )}
-    </>
+    <HeroLayout bgImage={bgImages[currentImageIndex]}>
+      <Content>
+        <Title>당신의 목소리가 작품이 되는 곳</Title>
+        <Subtitle>최고의 강사진과 함께 꿈을 현실로 만드세요.</Subtitle>
+      </Content>
+      <InteractiveArea>
+        <TabMenu>
+          <TabButton active={activeTab === 'Video'} onClick={() => setActiveTab('Video')}>영상</TabButton>
+          <TabButton active={activeTab === 'Recording'} onClick={() => setActiveTab('Recording')}>음원</TabButton>
+          <TabButton active={activeTab === 'Album'} onClick={() => setActiveTab('Album')}>앨범</TabButton>
+        </TabMenu>
+        <ContentPanel>
+          {renderContentPanel()}
+        </ContentPanel>
+      </InteractiveArea>
+    </HeroLayout>
   );
 };
 

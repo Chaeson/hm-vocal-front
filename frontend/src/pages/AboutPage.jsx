@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import aboutBg from '@/assets/images/about/about-bg.jpg';
+import privateLesson from '@/assets/images/about/private-lesson.png';
+import instructor from '@/assets/images/about/instructor.png';
+import infra from '@/assets/images/about/infra.png';
 
 const PageContainer = styled.div`
-    background-color: #f8f9fa;
+    background-color: #1a1a1a; /* 어두운 배경색 기본 */
     min-height: 100vh;
 `;
 
@@ -11,16 +14,18 @@ const LayoutContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
-    gap: 0;
+    gap: 2.5rem;
     width: 100%;
     min-height: 100vh;
     margin: 0;
     position: relative;
-    background-image: url(${aboutBg});
+    background-image: url(${aboutBg.src});
     background-size: cover;
     background-position: center;
-    padding: 3rem 4rem;
-    
+    background-attachment: fixed;
+    padding: 0rem;
+
+    /* 배경 이미지 위에 어두운 오버레이와 블러 효과 */
     &::before {
         content: '';
         position: absolute;
@@ -28,65 +33,66 @@ const LayoutContainer = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(255, 255, 255, 0.85);
-        z-index: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1;
     }
 
     @media (max-width: 1024px) {
         display: flex;
         flex-direction: column;
-        padding: 2rem;
+        padding: 0rem;
+        background-attachment: scroll;
     }
 `;
 
 const Section = styled.section`
     display: flex;
     align-items: center;
-    gap: 2rem;
-    background: white;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 2px solid #e74c3c;
+    gap: 1rem;
+    background: transition; /* 반투명 어두운 배경 */
+    padding: 0rem 1.0rem;
+    border-radius: 0px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.4);
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+    }
 
     @media (max-width: 768px) {
         flex-direction: column !important;
-        padding: 1.5rem;
+        padding: 1rem;
     }
 `;
 
 // 오른쪽의 긴 섹션
 const TallSection = styled(Section)`
     grid-column: 2;
-    grid-row: 1 / span 3; // 1번 행에서 시작해서 3개의 행을 차지
+    grid-row: 1 / span 3;
     flex-direction: column;
-    
-    @media (max-width: 1024px) {
-        // 미디어 쿼리에서는 grid 속성을 초기화
-        grid-column: auto;
-        grid-row: auto;
-    }
 `;
 
 const SectionImage = styled.img`
-    width: 100px;
-    height: 100px;
-    border-radius: 12px; // 둥근 사각형
+    width: 120px;
+    height: 120px;
+    border-radius: 0px;
     object-fit: cover;
     flex-shrink: 0;
-    position: relative;
-    z-index: 1;
+    box-shadow: 0 rgba(0, 0, 0, 0.3);
 
     @media (max-width: 768px) {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
     }
 `;
 
 const ContentWrapper = styled.div`
     text-align: left;
-    position: relative;
-    z-index: 1;
 
     @media (max-width: 768px) {
         text-align: center;
@@ -94,28 +100,30 @@ const ContentWrapper = styled.div`
 `;
 
 const TallSectionImage = styled(SectionImage)`
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
 `;
 
 const TallSectionContent = styled(ContentWrapper)`
     width: 100%;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
 `;
 
 const SectionTitle = styled.h2`
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #555;
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
 `;
 
 const Paragraph = styled.p`
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #e0e0e0; /* 순백색보다 부드러운 색상 */
     white-space: pre-wrap;
     word-break: keep-all;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 `;
 
 const AboutPage = () => {
@@ -124,28 +132,26 @@ const AboutPage = () => {
             <LayoutContainer>
                 {/* Column 1 */}
                 <Section>
-                    <SectionImage src="https://via.placeholder.com/100/3498db/FFFFFF?text=Edu" alt="보컬 교육 아이콘" />
+                    <SectionImage src={privateLesson.src} alt="보컬 교육 아이콘" />
                     <ContentWrapper>
                         <SectionTitle>1:1 프라이빗 레슨 중심</SectionTitle>
                         <Paragraph>{`보   컬 : 녹음실 디렉팅 기반의 발성·보이스 교정
-
 작   곡 : 멜로디·코드·미디·비트 메이킹·사운드 엔지니어링 등 프로듀서에게 필요한 전 과정을 체계 교육
-
 피아노/기타 : 곡 리하모니를 통한 창의성 중심 교육`}</Paragraph>
                     </ContentWrapper>
                 </Section>
 
                 <Section>
-                    <SectionImage src="https://via.placeholder.com/100/2ecc71/FFFFFF?text=System" alt="커리큘럼 아이콘" />
+                    <SectionImage src={instructor.src} alt="커리큘럼 아이콘" />
                     <ContentWrapper>
                         <SectionTitle>검증된 강사진</SectionTitle>
-                        <Paragraph>{`HM VOCAL 강사진은 서울예대·호원대·한양대 등 출신, 현업에서 활동하며 
+                        <Paragraph>{`HM VOCAL 강사진은 서울예대·호원대·한양대 등 출신, 현업에서 활동하며
 교육청에 정식 등록된 전문 강사진으로구성되어 있습니다`}</Paragraph>
                     </ContentWrapper>
                 </Section>
 
                 <Section>
-                    <SectionImage src="https://via.placeholder.com/100/e74c3c/FFFFFF?text=Tutor" alt="강사진 아이콘" />
+                    <SectionImage src={infra.src} alt="강사진 아이콘" />
                     <ContentWrapper>
                         <SectionTitle>전문적인 시설 인프라</SectionTitle>
                         <Paragraph>{`- 앨범 제작까지 가능한 전문 스튜디오
@@ -158,7 +164,6 @@ const AboutPage = () => {
 
                 {/* Column 2 */}
                 <TallSection>
-                    <TallSectionImage src="https://via.placeholder.com/120/f39c12/FFFFFF?text=Result" alt="성과 아이콘" />
                     <TallSectionContent>
                         <SectionTitle>{`HM VOCAL IDENTITY
 음악의 본질을 깊이 있게 탐구하는 공간`}</SectionTitle>
