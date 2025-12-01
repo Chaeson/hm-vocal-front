@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import apiClient from '@/api/axios'; // apiClient import
 
 // --- Helper Functions ---
 const formatDate = (timestamp) => {
@@ -97,7 +97,6 @@ const NaverMap = () => {
     const mapOptions = {
       center: location,
       zoom: 17,
-      zoomControl: true,
     };
     const map = new naver.maps.Map(mapElement.current, mapOptions);
     const marker = new naver.maps.Marker({
@@ -153,10 +152,9 @@ const LocationAndNewsSection = () => {
     const fetchLatestPosts = async () => {
       try {
         setLoading(true);
-        const apiUrl = 'http://158.180.83.230:8080/api/announcements';
-        const response = await axios.get(apiUrl);
+        const response = await apiClient.get('/api/announcements');
         if (response.data && response.data.length > 0) {
-          setLatestPosts(response.data.slice(0, 4)); // 최대 3개의 최신 게시물
+          setLatestPosts(response.data.slice(0, 4));
         }
       } catch (err) {
         setError('최신 소식을 불러오는 데 실패했습니다.');

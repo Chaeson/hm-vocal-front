@@ -11,27 +11,27 @@ const bgImages = [
 // --- 스타일 컴포넌트 ---
 const fadeIn = keyframes` from { opacity: 0; } to { opacity: 1; }`;
 const HeroLayout = styled.section`
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  padding: 0 550px 0 6rem;
+  position: relative; 
+  display: flex; 
+  align-items: center; 
+  height: 100vh; 
+  padding: 0 550px 0 6rem; 
   color: white;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${props => props.bgImage}) center/cover no-repeat;
-  transition: background-image 1s ease-in-out;
-  overflow: hidden;
+  transition: background-image 1s ease-in-out; 
+  overflow: hidden; 
   width: 100%;
-
-  @media (max-width: 1024px) {
+  
+  @media (max-width: 1024px) { 
     padding: 0 450px 0 3rem;
   }
-  @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    height: auto;
-    min-height: 100vh;
+  @media (max-width: 768px) { 
+    flex-direction: column; 
+    justify-content: center; 
+    height: auto; 
+    min-height: 100vh; 
     padding: 5rem 2rem;
-    text-align: center;
+    text-align: center; 
   }
 `;
 const Content = styled.div`
@@ -57,15 +57,15 @@ const InteractiveArea = styled.div`
   right: 0;
   height: 100%;
   width: 500px;
-
+  
   background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px) saturate(180%);
-
+  
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 3;
-
+  
   @media (max-width: 1024px) {
     width: 400px;
   }
@@ -87,22 +87,37 @@ const TabButton = styled.button`
   &:hover { color: #007bff; background-color: rgba(0, 0, 0, 0.05); }
 `;
 const ContentPanel = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
+  flex-grow: 1; 
+  overflow-y: auto; 
   padding: 1rem;
-
-  p {
+  
+  p.empty-message {
     text-align: center;
-    color: #555;
-    padding-top: 2rem;
+    color: #888;
+    padding: 1rem 0;
+    font-style: italic;
   }
 `;
 const PreviewItem = styled.div`
   display: flex; align-items: center; margin: 0.5rem; padding: 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-
+  
   img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; flex-shrink: 0; }
   div { p { margin: 0; color: #333; text-align: left; padding-top: 0; } .title { font-weight: 600; } .artist { font-size: 0.9rem; color: #666; } }
+`;
+
+const CategoryTitle = styled.h3`
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  padding: 1rem 1.25rem 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center; /* 가운데 정렬 추가 */
+  
+  &:first-child {
+    border-top: none;
+    padding-top: 0.5rem;
+  }
 `;
 
 // --- 컴포넌트 ---
@@ -110,10 +125,10 @@ const DataPreview = ({ tracks }) => (
   <div>
     {tracks.map(track => (
       <PreviewItem key={track.id}>
-        <img src={track.coverImage} alt={track.title} />
+        <img src={track.coverArt} alt={track.title} />
         <div>
           <p className="title">{track.title}</p>
-          <p className="artist">{track.studentName}</p>
+          <p className="artist">{track.artist}</p>
         </div>
       </PreviewItem>
     ))}
@@ -126,13 +141,25 @@ const HeroSection = () => {
   const [playlist, setPlaylist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const isScrolling = useRef(false);
 
+  // 화면 크기 감지
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // 배경 이미지 슬라이더
   useEffect(() => {
     const interval = setInterval(() => { setCurrentImageIndex(prev => (prev + 1) % bgImages.length); }, 5000);
     return () => clearInterval(interval);
   }, []);
 
+  // 스크롤 이벤트
   useEffect(() => {
     const handleWheel = (e) => {
       if (isScrolling.current) return;
@@ -147,6 +174,7 @@ const HeroSection = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
+  // 데이터 불러오기
   useEffect(() => {
     const fetchPlaylist = async () => {
       try {
@@ -164,27 +192,52 @@ const HeroSection = () => {
     fetchPlaylist();
   }, []);
 
-  // [수정] category가 문자열 또는 배열인 경우 모두 처리하는 안전한 필터링 로직
-  const filteredTracks = Array.isArray(playlist)
-    ? playlist.filter(track => {
-        if (!track || !track.category) {
-          return false;
-        }
-        if (Array.isArray(track.category)) {
-          return track.category.includes(activeTab);
-        }
-        if (typeof track.category === 'string') {
-          return track.category === activeTab;
-        }
-        return false;
-      })
-    : [];
-
   const renderContentPanel = () => {
-    if (loading) return <p>로딩 중...</p>;
-    if (error) return <p style={{ color: 'red' }}>{error}</p>;
-    if (filteredTracks.length === 0) return <p>표시할 항목이 없습니다.</p>;
-    return <DataPreview tracks={filteredTracks} />;
+    if (loading) return <p className="empty-message">로딩 중...</p>;
+    if (error) return <p className="empty-message" style={{ color: 'red' }}>{error}</p>;
+
+    // 모바일 뷰: 탭 기반 필터링
+    if (isMobile) {
+      const filteredTracks = Array.isArray(playlist)
+        ? playlist.filter(track => {
+            if (!track || !track.category) return false;
+            if (Array.isArray(track.category)) return track.category.includes(activeTab);
+            if (typeof track.category === 'string') return track.category === activeTab;
+            return false;
+          })
+        : [];
+      
+      if (filteredTracks.length === 0) return <p className="empty-message">표시할 항목이 없습니다.</p>;
+      return <DataPreview tracks={filteredTracks} />;
+    }
+
+    // 데스크톱 뷰: 카테고리별 목록
+    const categories = ['Video', 'Recording', 'Release'];
+    const categoryLabels = { Video: '영상', Recording: '음원', Release: '앨범' };
+
+    return (
+      <div>
+        {categories.map(category => {
+          const tracks = playlist.filter(track => {
+            if (!track || !track.category) return false;
+            if (Array.isArray(track.category)) return track.category.includes(category);
+            if (typeof track.category === 'string') return track.category === category;
+            return false;
+          }).slice(0, 5);
+
+          return (
+            <div key={category}>
+              <CategoryTitle>{categoryLabels[category]}</CategoryTitle>
+              {tracks.length > 0 ? (
+                <DataPreview tracks={tracks} />
+              ) : (
+                <p className="empty-message">표시할 항목이 없습니다.</p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -194,11 +247,13 @@ const HeroSection = () => {
         <Subtitle>최고의 강사진과 함께 꿈을 현실로 만드세요.</Subtitle>
       </Content>
       <InteractiveArea>
-        <TabMenu>
-          <TabButton active={activeTab === 'Video'} onClick={() => setActiveTab('Video')}>영상</TabButton>
-          <TabButton active={activeTab === 'Recording'} onClick={() => setActiveTab('Recording')}>음원</TabButton>
-          <TabButton active={activeTab === 'Album'} onClick={() => setActiveTab('Album')}>앨범</TabButton>
-        </TabMenu>
+        {isMobile && (
+          <TabMenu>
+            <TabButton active={activeTab === 'Video'} onClick={() => setActiveTab('Video')}>영상</TabButton>
+            <TabButton active={activeTab === 'Recording'} onClick={() => setActiveTab('Recording')}>음원</TabButton>
+            <TabButton active={activeTab === 'Release'} onClick={() => setActiveTab('Release')}>앨범</TabButton>
+          </TabMenu>
+        )}
         <ContentPanel>
           {renderContentPanel()}
         </ContentPanel>

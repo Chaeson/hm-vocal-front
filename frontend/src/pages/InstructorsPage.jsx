@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import axios from 'axios';
-import { IoIosArrowDown, IoIosClose } from 'react-icons/io'; // Ensure react-icons is installed
+import apiClient from '@/api/axios'; // apiClient import
+import { IoIosArrowDown, IoIosClose } from 'react-icons/io';
 
 // 3. 탭 레이블 맵
 const tabLabels = {
@@ -377,7 +377,7 @@ const InstructorsPage = () => {
 
   const fetchInstructors = async () => {
     try {
-      const response = await axios.get('http://158.180.83.230:8080/api/instructors');
+      const response = await apiClient.get('/api/instructors');
       if (response.data && response.data.length > 0) {
         setInstructors(response.data);
       }
@@ -439,7 +439,7 @@ const InstructorsPage = () => {
     data.append('image', formData.image);
 
     try {
-      await axios.post('http://158.180.83.230:8080/api/instructors', data, {
+      await apiClient.post('/api/instructors', data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert("강사가 성공적으로 등록되었습니다!");
@@ -491,8 +491,7 @@ const InstructorsPage = () => {
               <ExpandedBody>
                 <h3>{expandedInstructor.name}</h3>
                 <p className="specialty">{expandedInstructor.category.map(cat => tabLabels[cat] || cat).join(' / ')}</p>
-                {/* [수정] cardBio가 존재할 때만, \r\n을 \n으로 변환하여 렌더링 */}
-                <p className="bio">{expandedInstructor.cardBio && expandedInstructor.cardBio.replace(/\\r\\n/g, '\n')}</p>
+                <p className="bio">{expandedInstructor.cardBio && expandedInstructor.cardBio.replace(/\r\n/g, '\n')}</p>
               </ExpandedBody>
             </ExpandedCard>
           </ExpandedWrapper>

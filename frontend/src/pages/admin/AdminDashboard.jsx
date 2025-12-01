@@ -1,7 +1,7 @@
 // frontend/src/pages/admin/AdminDashboard.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import axios from 'axios';
+import apiClient from '@/api/axios'; // apiClient import
 import { IoIosArrowDown, IoIosClose } from 'react-icons/io';
 
 // --- 탭 레이블 맵 (카테고리 표시용) ---
@@ -427,7 +427,7 @@ const AdminDashboard = () => {
 
   const fetchInstructors = async () => {
     try {
-      const response = await axios.get('http://158.180.83.230:8080/api/instructors');
+      const response = await apiClient.get('/api/instructors');
       if (response.data) {
         setInstructors(response.data);
       }
@@ -438,7 +438,7 @@ const AdminDashboard = () => {
 
   const fetchStudentWorks = async () => {
     try {
-      const response = await axios.get('http://158.180.83.230:8080/api/student-works');
+      const response = await apiClient.get('/api/student-works');
       if (response.data) {
         setStudentWorks(response.data);
       }
@@ -449,7 +449,7 @@ const AdminDashboard = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get('http://158.180.83.230:8080/api/announcements');
+      const response = await apiClient.get('/api/announcements');
       if (response.data) {
         setAnnouncements(response.data);
       }
@@ -503,7 +503,7 @@ const AdminDashboard = () => {
     data.append('image', formData.image);
 
     try {
-      await axios.post('http://158.180.83.230:8080/api/instructors', data, {
+      await apiClient.post('/api/instructors', data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert("강사가 성공적으로 등록되었습니다!");
@@ -546,7 +546,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      await axios.post('http://158.180.83.230:8080/api/student-works', data, {
+      await apiClient.post('/api/student-works', data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert("작품이 성공적으로 등록되었습니다!");
@@ -581,7 +581,7 @@ const AdminDashboard = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post('http://158.180.83.230:8080/api/announcements', announcementFormData);
+      await apiClient.post('/api/announcements', announcementFormData);
       alert("공지사항이 성공적으로 등록되었습니다!");
       setAnnouncementFormData({
         title: '',

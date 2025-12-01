@@ -77,7 +77,7 @@ const CardContainer = styled.div`
     scroll-snap-type: x mandatory;
     padding: 0 1rem;
     gap: 1.5rem;
-    
+
     /* 스크롤바 숨기기 */
     &::-webkit-scrollbar { display: none; }
     -ms-overflow-style: none;
@@ -166,7 +166,7 @@ const ProgramsSummarySection = () => {
             <CardBody>
               <CardTitle>{program.title}</CardTitle>
               <CardDescription>{program.description}</CardDescription>
-              <MoreButton href={`/programs?course=${program.id}`}>자세히 보기</MoreButton>
+              <MoreButton href={`/programs/?course=${program.id}`}>자세히 보기</MoreButton>
             </CardBody>
           </Card>
         ))}

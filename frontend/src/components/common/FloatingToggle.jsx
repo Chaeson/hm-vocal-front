@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const ToggleContainer = styled.div`
@@ -6,6 +6,10 @@ const ToggleContainer = styled.div`
   bottom: 2rem;
   right: 2rem;
   z-index: 1000;
+  opacity: ${props => props.isVisible ? 1 : 0};
+  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: ${props => props.isVisible ? 'auto' : 'none'};
 `;
 
 const ToggleButton = styled.button`
@@ -56,11 +60,48 @@ const MenuItem = styled.a`
 
 const FloatingToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const timeoutIdRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // 스크롤 시작 시 버튼 숨기기
+      setIsVisible(false);
+      
+      // 기존 타이머가 있다면 제거
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+
+      // 3초 후에 버튼을 표시하는 새 타이머 설정
+      timeoutIdRef.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 1500);
+    };
+
+    // 초기 로드 시 3초 후 버튼 표시
+    timeoutIdRef.current = setTimeout(() => {
+      setIsVisible(true);
+    }, 1500);
+
+    window.addEventListener('scroll', handleScroll);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너와 타이머 정리
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <ToggleContainer>
+    <ToggleContainer isVisible={isVisible}>
       <Menu isOpen={isOpen}>
         <MenuItem href="#">맨 위로</MenuItem>
+        <MenuItem href="https://blog.naver.com/hm_vocal">블로그</MenuItem>
+        <MenuItem href="https://www.instagram.com/hmvocal/">인스타그램</MenuItem>
+        <MenuItem href="https://www.youtube.com/@hmvocal2001">YouTube</MenuItem>
         <MenuItem href="#">카톡 문의</MenuItem>
       </Menu>
       <ToggleButton onClick={() => setIsOpen(!isOpen)}>

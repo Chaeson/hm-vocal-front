@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import apiClient from '@/api/axios'; // apiClient import
 
 const ITEMS_PER_PAGE = 10;
 
@@ -177,8 +177,7 @@ const NewsListPage = () => {
         setLoading(true);
         setError(null);
         const board = boards[activeBoard];
-        const apiUrl = `http://158.180.83.230:8080${board.apiUrl}`;
-        const response = await axios.get(apiUrl);
+        const response = await apiClient.get(board.apiUrl);
         setPosts(response.data);
         setCurrentPage(1); // 게시판 변경 시 1페이지로 초기화
         setActiveIndex(null); // 열려있는 항목 초기화

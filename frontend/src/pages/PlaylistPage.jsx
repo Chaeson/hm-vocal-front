@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FaPlay, FaHeadphones, FaCompactDisc } from 'react-icons/fa';
-import axios from 'axios';
+import apiClient from '@/api/axios'; // apiClient import
 
 // 탭 레이블 맵
 const tabLabels = {
@@ -224,7 +224,7 @@ const PlaylistPage = () => {
   const fetchStudentWorks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://158.180.83.230:8080/api/student-works');
+      const response = await apiClient.get('/api/student-works');
       if (response.data) {
         setStudentWorks(response.data);
       }
