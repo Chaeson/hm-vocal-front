@@ -16,38 +16,38 @@ const programsData = [
         id: 'college',
         title: '입시반',
         sections: [
-            { id: 'hobby-midi', title: '보컬', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '피아노', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '기타', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '미디', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '작곡', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '화성학', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
-            { id: 'hobby-midi', title: '시창청음', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
+            { id: 'college-vocal', title: '보컬', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '음악대학 입시를 위한 전문 보컬 트레이닝 과정입니다. 실기 시험 준비부터 입시 전략까지 체계적으로 지도합니다.' },
+            { id: 'college-piano', title: '피아노', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '음악대학 피아노 전공 입시를 위한 전문 과정입니다. 테크닉부터 음악성까지 입시에 필요한 모든 요소를 준비합니다.' },
+            { id: 'college-guitar', title: '기타', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '실용음악 기타 전공 입시를 위한 전문 레슨입니다. 테크닉, 이론, 실전 연주까지 완벽하게 준비합니다.' },
+            { id: 'college-midi', title: '미디', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '컴퓨터 음악 제작의 핵심인 미디(MIDI)를 활용하여, 나만의 음악을 프로페셔널하게 만들고 편곡하는 방법을 배웁니다.' },
+            { id: 'college-compose', title: '작곡', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '실용음악 작곡 전공 입시를 위한 과정입니다. 화성학, 작곡법, 편곡 등 입시에 필요한 모든 실력을 키웁니다.' },
+            { id: 'college-harmony', title: '화성학', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '음악 이론의 핵심인 화성학을 체계적으로 학습합니다. 입시 필수 과목으로 이론부터 실전 적용까지 마스터합니다.' },
+            { id: 'college-solfege', title: '시창청음', image: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '음악 입시의 필수 과목인 시창청음을 집중 훈련합니다. 청음 능력과 시창 실력을 단계적으로 향상시킵니다.' },
         ]
     },
     {
         id: 'audition',
         title: '오디션/프로반',
         sections: [
-            { id: 'audition-vocal', title: '보컬', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다.' },
-            { id: 'audition-vocal', title: '미디', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다.' },
-            { id: 'audition-vocal', title: '프로듀싱', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다.' },
+            { id: 'audition-vocal', title: '보컬', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다. 현직 프로듀서의 노하우로 실전 감각을 키웁니다.' },
+            { id: 'audition-midi', title: '미디', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '프로 수준의 미디 프로그래밍과 편곡 능력을 키워 오디션과 실무에서 경쟁력을 갖춥니다.' },
+            { id: 'audition-producing', title: '프로듀싱', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '작곡부터 믹싱, 마스터링까지 전 과정을 배우며 프로 프로듀서로서의 역량을 키웁니다.' },
         ]
     },
     {
         id: 'senior',
         title: '시니어반',
         sections: [
-            { id: 'audition-vocal', title: '보컬', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다.' },
-            { id: 'audition-vocal', title: '악기', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '주요 기획사 오디션 합격을 위한 맞춤형 전략과 실전 트레이닝을 제공합니다.' },
+            { id: 'senior-vocal', title: '보컬', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '편안한 분위기에서 건강한 발성과 함께 노래의 즐거움을 찾아가는 시니어 전용 보컬 레슨입니다.' },
+            { id: 'senior-instrument', title: '악기', image: 'https://images.pexels.com/photos/3394347/pexels-photo-3394347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '평생의 취미로 즐길 수 있는 악기 연주를 천천히, 즐겁게 배울 수 있는 시니어 맞춤형 레슨입니다.' },
         ]
     },
     {
         id: 'advanced',
         title: '축가 준비반',
         sections: [
-            { id: 'advanced-vocal', title: '보컬', image: 'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '일생의 한 번뿐인 특별한 날을 위해, 단기간에 최고의 무대를 만들 수 있도록 집중 코칭합니다.' },
-            { id: 'advanced-vocal', title: '악기', image: 'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '일생의 한 번뿐인 특별한 날을 위해, 단기간에 최고의 무대를 만들 수 있도록 집중 코칭합니다.' },
+            { id: 'advanced-vocal', title: '보컬', image: 'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '일생의 한 번뿐인 특별한 날을 위해, 단기간에 최고의 무대를 만들 수 있도록 집중 코칭합니다. 발성부터 감정 표현까지 완벽하게 준비합니다.' },
+            { id: 'advanced-instrument', title: '악기', image: 'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', description: '특별한 날을 위한 악기 연주 준비 과정입니다. 피아노나 기타 반주로 감동적인 순간을 연출하세요.' },
         ]
     }
 ];
@@ -64,14 +64,74 @@ const TabButton = styled.button`
   &.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
 `;
 const SectionGrid = styled.div`
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem;
-  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; animation: ${fadeIn} 0.5s ease-in-out;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  animation: ${fadeIn} 0.5s ease-in-out;
+  scroll-behavior: smooth;
+
+  /* 4개 이하일 때 가운데 정렬 */
+  justify-content: ${props => props.$itemCount <= 4 ? 'center' : 'flex-start'};
+
+  /* 스크롤바 스타일링 */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
 `;
 const SectionCard = styled.div`
-  position: relative; height: 500px; border-radius: 16px; overflow: hidden; cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;
-  &:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-  &::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%); }
+  position: relative;
+  min-width: 280px;
+  width: 280px;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+  }
+
+  @media (max-width: 768px) {
+    min-width: 240px;
+    width: 240px;
+  }
 `;
 const SectionImage = styled.img` width: 100%; height: 100%; object-fit: cover; `;
 const SectionTitle = styled.h2`
@@ -180,7 +240,7 @@ const ProgramsPage = () => {
         ))}
       </TabNav>
 
-      <SectionGrid>
+      <SectionGrid $itemCount={selectedProgram.sections.length}>
         {selectedProgram.sections.map(section => (
           <SectionCard key={section.id} onClick={() => setExpandedSection(section)}>
             <SectionImage src={section.image} alt={section.title} />

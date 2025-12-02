@@ -14,6 +14,7 @@
 /build
 /frontend/build
 /frontend/dist/*
+/frontend/.astro
 /backend/build
 
 /frontend/package-lock.json
